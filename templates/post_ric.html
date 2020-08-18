@@ -1,0 +1,57 @@
+   <div data-aos="zoom-in-up" class="slidein row tm-section-mb row align-items-center">
+        <div class="col-lg-8">
+            <div class="tm-timeline-item col-lg-11" align="center">
+                <div class="tm-timeline-item-inner">
+                    <div class="tm-timeline-description-wrap" align="center">
+                        <div class="tm-bg-dark tm-timeline-description">
+                            <h3 class="tm-text-green tm-font-400">{{ post.title }}</h3>
+
+
+                        <!--MEDIA DELL ANTEPRIMA-->
+                            {% if post.uris %}
+                                {% if post.uris[0].split(".")[-1] in ["png", "jpg", "jpeg"]  %}
+                                    <img src= "{{ post.uris[0] }}"  alt="img_post" height="500px" width="500px">
+                                    <br>
+                                {% elif post.uris[0].split(".")[-1] in ["mp4"] %}
+                                    <video width="500px" height="500px" controls muted autoplay>
+                                        <source src="{{ post.uris[0] }}" type="video/mp4">
+                                    </video>
+                                    <br>
+                        <!--QUALSIASI ALTRO FILE CHE NON SIA IMMAGINE O VIDEO-->
+                                {% else %}
+                                    <a style="font-size:17px" href="{{ post.uris[0] }}">
+                                        <div>
+                                            <img src= "https://i.postimg.cc/Z5ZYBBPB/HlrAzXK.png"  alt="file_image" height="60px" width="60px">
+                                            <p> {{ post.uris[0].split("/")[-1] }} </p>
+                                        </div>
+                                    </a>
+                                    <p></p>
+                                    <!--METTO DEGLI IF NELLE DESCRIZIONI PER SAPERE SE AGGIUNGERE I 3 PUNTINI O NO-->
+                                    {% if post.description|length > 120 %}
+                                        <p>{{ post.description[:120] }}...</p>
+                                    {% else %}
+                                        <p>{{ post.description[:120] }}</p>
+                                    {% endif %}
+
+                                {% endif %}
+                            {% else %}
+                                <p></p>
+                                <!--METTO DEGLI IF NELLE DESCRIZIONI PER SAPERE SE AGGIUNGERE I 3 PUNTINI O NO-->
+                                {% if post.description|length > 200 %}
+                                    <p>{{ post.description[:200] }}...</p>
+                                {% else %}
+                                    <p>{{ post.description[:200] }}</p>
+                                {% endif %}
+                            {% endif %}
+
+                            <span class="tm-text-green">Comments ( {{ post.nComments }} ) - {{ post.dateCreated }}</span>
+                            <br>
+                            <span class="tm-text-green" style="font-size:13px">TAGS = {% for tag in post.tags %} {{ tag }} {% endfor %}</span>
+                            <p><a class="tm-text-green float-right" style="font-size:20px" href="">View full post</a></p>
+                        </div> 
+                    </div> 
+                </div>
+            </div>
+        </div>
+     </div>
+
