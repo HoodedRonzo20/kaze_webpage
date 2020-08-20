@@ -2,16 +2,16 @@
 // si evitano errori adi elementi mancanti con i js che potrebbero essere caricati prima della index.html
 
 import GetterJson from './Models/GetterJson.js';
-import Comment from './Entities/Comment.js';
-import Post from './Entities/Post.js';
+import HtmlBuilder from './Models/HtmlBuilder.js';
 
 var getterJson = new GetterJson("https://localhost:5001", null);
 console.log("DOMAIN: " + getterJson.domain);
-var json = getterJson.GetNewPosts();
-console.log(json);
-// json.value.forEach(element => {
-//     console.log(element);
-// });
+console.log(getterJson.GetNewPosts());
+
+var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
+console.log(htmlBuilder.pathTemplate);
+console.log(htmlBuilder.CreatePostView("asd"));
+
 
 console.log("Finish!");
 //Evento di caricamento post successivi

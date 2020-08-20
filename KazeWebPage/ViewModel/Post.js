@@ -2,17 +2,21 @@
 export default class Post 
 {
 	constructor(id, title) {
-		this.id = id;
+		this.id = SetId();
 		this.title = title;
 	}
 
-	PrintId() {
+	PrintId() 
+	{
 		console.log('Post Id: ', this.id);
 	}
 
-	static CreatePostFromJson(json) 
+	static CreatePostFromJson(objJson) 
 	{
-		objPost = new Post(10,"porva Titolo 10");
+		let objPost = new Post(
+			objJson.id,
+			objJson.title,
+		);
 		return objPost;
 	}
 }

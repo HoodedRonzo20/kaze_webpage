@@ -8,21 +8,12 @@ export default class GetterJson
         this.data = data
     }
 
-    // Simple class instance methods using short-hand method
-    // declaration
-    PrintDomain() 
-    {
-        console.log('Domain: ', this.domain);
-    }
-
     async GetNewPosts() 
     {
         let url = this.domain + "/Post";
         let json;
-        console.log("Start await");
         //json = GetterJson.RequestJsonJQuery(url);
         json = await GetterJson.RequestJsonAsync("GET", url, this.data);
-        console.log("end await");
         return json
     }
 
@@ -30,7 +21,7 @@ export default class GetterJson
     {
         //data e un json che contiene delle informazioni tipo credenziali email, pass
         // nel nostro caso non ci serve.
-        return await new Promise((resolve, reject) => {
+        return await new Promise((resolve, reject)=> {
             let xhr = new XMLHttpRequest();
             xhr.open(method, url, true);
             xhr.responseType = "json"
@@ -57,10 +48,9 @@ export default class GetterJson
             //     }
             // };
             xhr.send(JSON.stringify(data));
-        }).then(resJson => {
-            console.log(resJson);
-            return resJson;
-            
+        }).then(responseResult => {
+            console.log(responseResult[0].title);
+            return responseResult;
         }).catch(err => {console.log(err);});
     }
 }
