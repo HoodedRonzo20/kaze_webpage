@@ -15,37 +15,24 @@ export default class GetterJson
         console.log('Domain: ', this.domain);
     }
 
-    GetNewPosts() 
+    async GetNewPosts() 
     {
         let url = this.domain + "/Post";
         let json;
+        console.log("Start await");
         //json = GetterJson.RequestJsonJQuery(url);
-        json = GetterJson.RequestJson("GET", url, this.data);
-        json.forEach(element => {
-            console.log(element)
-        });
+        json = await GetterJson.RequestJsonAsync("GET", url, this.data);
+        console.log("end await");
         return json
     }
 
-    static RequestJsonJQuery(url) 
-    {
-        var json;
-        $.getJSON(url, function(data) {
-            data.forEach(element => {
-                console.log(element)
-            });
-            json = data
-        });
-        return $.getJSON(url);
-    }
-
-    static RequestJson(method, url, data) 
+    static async RequestJsonAsync(method, url, data) 
     {
         //data e un json che contiene delle informazioni tipo credenziali email, pass
         // nel nostro caso non ci serve.
-        let promise = new Promise((resolve, reject) => {
+        return await new Promise((resolve, reject) => {
             let xhr = new XMLHttpRequest();
-            xhr.open(method, url);
+            xhr.open(method, url, true);
             xhr.responseType = "json"
             if(data) {
                 xhr.setRequestHeader("Content-Type", "application/json")
@@ -64,13 +51,16 @@ export default class GetterJson
             xhr.ontimeout = function() {
                 reject(new TypeError('Network request failed'));
             };
+            // xhr.onreadystatechange = function() {
+            //     if (xhr.readyState == 4 && xhr.status == 200) {
+            //         console.log(xhr.response);
+            //     }
+            // };
             xhr.send(JSON.stringify(data));
-        });
-        promise.then(j => {
-            j.forEach(element => console.log(element));
-            return j;
-        }).catch(err => { 
-            console.log(err);
-        });
+        }).then(resJson => {
+            console.log(resJson);
+            return resJson;
+            
+        }).catch(err => {console.log(err);});
     }
 }

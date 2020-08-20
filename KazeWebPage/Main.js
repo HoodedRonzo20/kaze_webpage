@@ -7,7 +7,11 @@ import Post from './Entities/Post.js';
 
 var getterJson = new GetterJson("https://localhost:5001", null);
 console.log("DOMAIN: " + getterJson.domain);
-console.log(getterJson.GetNewPosts());
+var json = getterJson.GetNewPosts();
+console.log(json);
+// json.value.forEach(element => {
+//     console.log(element);
+// });
 
 console.log("Finish!");
 //Evento di caricamento post successivi
