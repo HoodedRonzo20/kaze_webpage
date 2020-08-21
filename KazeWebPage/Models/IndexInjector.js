@@ -10,8 +10,7 @@ export default class IndexInjector
         let retBool = false
         if(insideIn != null)
         {
-            let div = document.querySelector(insideIn);
-            div.innerHTML = element;
+            document.getElementById(insideIn).innerHTML = element;
             retBool = true;
         }
         return retBool

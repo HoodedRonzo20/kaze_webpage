@@ -11,8 +11,14 @@ export default class HtmlBuilder
     async CreatePostView(post) 
     {
         let path = this.pathTemplate + Post.name + ".html";
+        console.log(path);
         let html = await HtmlBuilder.GetTextFromFile(path);
-        html = HtmlBuilder.RepleaceKey(html, "id", 5);
+        html = HtmlBuilder.RepleaceKey(html, "title", post.title);
+        html = HtmlBuilder.RepleaceKey(html, "tags", post.tags);
+        html = HtmlBuilder.RepleaceKey(html, "dateCreated", post.dateCreated);
+        html = HtmlBuilder.RepleaceKey(html, "uris", post.uris);
+        html = HtmlBuilder.RepleaceKey(html, "description", post.description);
+        html = HtmlBuilder.RepleaceKey(html, "nComments", post.nComments);
         console.log(html);
         return html;
     }

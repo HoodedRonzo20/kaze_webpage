@@ -7,14 +7,12 @@ import IndexInjector from './Models/IndexInjector.js';
 
 var getterJson = new GetterJson("https://localhost:5001", null);
 console.log("DOMAIN: " + getterJson.domain);
-console.log(getterJson.GetNewPosts());
 
 var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
 console.log(htmlBuilder.pathTemplate);
-console.log(htmlBuilder.CreatePostView("asd"));
 
+getterJson.GetNewPosts();
 
-console.log("Finish!");
 //Evento di caricamento post successivi
 // $(window).scroll(function() {
 //     if($(window).scrollTop() == $(document).height() - $(window).height()) {
