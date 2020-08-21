@@ -3,6 +3,7 @@
 
 import GetterJson from './Models/GetterJson.js';
 import HtmlBuilder from './Models/HtmlBuilder.js';
+import IndexInjector from './Models/IndexInjector.js';
 
 var getterJson = new GetterJson("https://localhost:5001", null);
 console.log("DOMAIN: " + getterJson.domain);

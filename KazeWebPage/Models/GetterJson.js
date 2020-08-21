@@ -1,4 +1,3 @@
-
 //export default - serve per consentire l'import su unaltro file js
 export default class GetterJson 
 {
@@ -49,7 +48,6 @@ export default class GetterJson
             // };
             xhr.send(JSON.stringify(data));
         }).then(responseResult => {
-            console.log(responseResult[0].title);
             return responseResult;
         }).catch(err => {console.log(err);});
     }
