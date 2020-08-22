@@ -15,12 +15,12 @@ export default class HtmlBuilder
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "id", post.id);
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "title", post.title);
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "tags", post.tags);
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "isAdultContent", post.isAdultContent);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "isAdultContent", post.isAdultContentis ? 'NSFW' : '');
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "dateCreated", post.dateCreated);
         if(post.uris.length > 0) {
-            let stocazzo = await HtmlBuilder.UrisManagement(this.pathTemplate, post.uris[0]);
-            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", stocazzo);
-        }
+            let htmlFile = await HtmlBuilder.UrisManagement(this.pathTemplate, post.uris[0]);
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", htmlFile);
+        } else { htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", ''); }
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", post.description);
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "nComments", post.nComments);
         return htmlPost;
@@ -65,7 +65,13 @@ export default class HtmlBuilder
 
     static RepleaceKey(mainStr, keyword, replaceStr)
     {
+        let htmlEdit;
         let keywordAdapted = `:|§${keyword}§|:`
-        return mainStr.replace(keywordAdapted, replaceStr);
+        // if(replaceStr !== null && replaceStr !== '') {
+            htmlEdit = mainStr.replace(keywordAdapted, replaceStr);
+        // } else {
+        //     htmlEdit = mainStr.replace(keywordAdapted, '');
+        // }
+        return  htmlEdit;
     }
 }
