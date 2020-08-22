@@ -10,48 +10,48 @@ export default class HtmlBuilder
 
     async CreatePostView(post) 
     {
-        let path = this.pathTemplate + Post.name + ".html";
+        let path = `${this.pathTemplate}${Post.name}.html`;
         let html = await HtmlBuilder.GetTextFromFile(path);
         html = HtmlBuilder.RepleaceKey(html, "id", post.id);
         html = HtmlBuilder.RepleaceKey(html, "title", post.title);
         html = HtmlBuilder.RepleaceKey(html, "tags", post.tags);
         html = HtmlBuilder.RepleaceKey(html, "isAdultContent", post.isAdultContent);
         html = HtmlBuilder.RepleaceKey(html, "dateCreated", post.dateCreated);
-        html = HtmlBuilder.UrisManagement(post.uris[0]);
+        html = await HtmlBuilder.UrisManagement(this.pathTemplate, post.uris[0]);
         html = HtmlBuilder.RepleaceKey(html, "description", post.description);
         html = HtmlBuilder.RepleaceKey(html, "nComments", post.nComments);
         HtmlBuilder.UrisManagement(html);
         return html;
     }
 
-    static async UrisManagement(uri) {
+    static async UrisManagement(pathTemplate, uri) {
         let html = "";
-        let array = uri.split(".");
-        let pathUris = this.pathTemplate + "/Uris_view/";
-        switch(array[array.length-1]) {
+        console.log(uri.split("."));
+        let arrayStr = uri.split(".");
+        console.log(arrayStr);
+        let pathUris = `${pathTemplate}/Uris_View/`;
+        switch(arrayStr[arrayStr.length-1]) {
             case "png":
             case "jpeg":
             case "jpg":
-                let path = pathUris + "uri_img" + ".html";
-                html = await HtmlBuilder.GetTextFromFile(path);
-                html = HtmlBuilder.RepleaceKey(html, "uri_img", uri);
+                html = await HtmlBuilder.GetTextFromFile(`${pathUris}Img_Uri_View.html`);
+                html = HtmlBuilder.RepleaceKey(html, "Img_Uri", uri);
                 break;
             case "mp4":
-                let path = pathUris + "uri_vid" + ".html";
-                html = await HtmlBuilder.GetTextFromFile(path);
-                html = HtmlBuilder.RepleaceKey(html, "uri_vid", uri);
+                html = await HtmlBuilder.GetTextFromFile(`${pathUris}Video_Uri_View.html`);
+                html = HtmlBuilder.RepleaceKey(html, "Video_Uri", uri);
                 break;
             default:
-                let path = pathUris + "uri_file" + ".html";
-                html = await HtmlBuilder.GetTextFromFile(path);
-                html = HtmlBuilder.RepleaceKey(html, "uri_file", uri);
+                html = await HtmlBuilder.GetTextFromFile(`${pathUris}File_Uri_View.html`);
+                html = HtmlBuilder.RepleaceKey(html, "File_Uri", uri);
+                break;
         } 
         return html;
     }
 
     async CreateCommentView(comment) 
     {
-        let path = this.pathTemplate + Comment.name + ".html";
+        let path = `${this.pathTemplate}${Comment.name}.html`;
         let html = await HtmlBuilder.GetTextFromFile(path);
         return "asd";
     }
@@ -64,7 +64,7 @@ export default class HtmlBuilder
 
     static RepleaceKey(mainStr, keyword, replaceStr)
     {
-        let keywordAdapted =":|§" + keyword + "§|:"
+        let keywordAdapted = `:|§${keyword}§|:`
         return mainStr.replace(keywordAdapted, replaceStr);
     }
 }

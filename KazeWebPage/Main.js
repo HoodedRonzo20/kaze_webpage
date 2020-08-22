@@ -12,6 +12,7 @@ async function Main()
     var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
     let posts = null;
     let html = "";
+
     //CHIAMATA GETNEWPOST X I POST PIU' RECENTI
     posts = await getterJson.GetNewPosts();
     for (let i = 0; i < 3; i++) {
