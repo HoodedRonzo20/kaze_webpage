@@ -15,6 +15,12 @@ export default class GetterJson
         return await GetterJson.RequestJsonAsync("GET", url, this.data);
     }
 
+    async GetOldPosts(lastpostid)
+    {
+        let url = this.domain + "/Post/Under?lastolder=" + lastpostid;
+        return await GetterJson.RequestJsonAsync("GET", url, this.data);
+    }
+
     static async RequestJsonAsync(method, url, data) 
     {
         //data e un json che contiene delle informazioni tipo credenziali email, pass

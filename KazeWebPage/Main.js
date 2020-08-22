@@ -10,32 +10,36 @@ async function Main()
     //Creazione dei componenti necessari
     var getterJson = new GetterJson("https://localhost:5001", null);
     var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
-    
-    console.log("DOMAIN: " + getterJson.domain);
-
-    let posts = await getterJson.GetNewPosts();
+    let posts = null;
     let html = "";
+    //CHIAMATA GETNEWPOST X I POST PIU' RECENTI
+    posts = await getterJson.GetNewPosts();
     for (let i = 0; i < 3; i++) {
         html += await htmlBuilder.CreatePostView(posts[i]);
     }
-    console.log(html);
     IndexInjector.InjecHtmlElement("PostsContainer", html);
-    // .then(responseResult => {
-    //     return responseResult;
-    // }));
 
+    //CHIAMATA VECCHI POST
+    html = "";
+    posts = await getterJson.GetOldPosts(6);
+        for (let i = 0; i < 3; i++) {
+            html += await htmlBuilder.CreatePostView(posts[i]);
+        }
+    IndexInjector.InjecHtmlElement("PostsContainer", html);
 }
 Main();
 
-//Evento di caricamento post successivi
-// $(window).scroll(function() {
-//     if($(window).scrollTop() == $(document).height() - $(window).height()) {
-//         $.ajax({
-//             url: "/loadmore/",
-//             type: "POST",
-//             success: function(resp){
-//                 $('div#response').append(resp);
-//             }
-//         });
-//     };
-// });
+    // //CHIAMATA GETOLDPOST X I POST PIU VECCHI
+    // $(window).scroll(function() {
+    //     if($(window).scrollTop() == $(document).height() - $(window).height()) {
+    //         var x = async function getold()  {
+    //             posts = await getterJson.GetOldPosts(6);
+    //             for (let i = 0; i < 3; i++) {
+    //                 html += await htmlBuilder.CreatePostView(posts[i]);
+    //             }
+    //             IndexInjector.InjecHtmlElement("PostsContainer", html);
+    //         } 
+    //         x;
+    //     };
+    // });
+
