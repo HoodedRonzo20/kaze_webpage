@@ -16,7 +16,7 @@ async function Main()
 
     //CHIAMATA GETNEWPOST X I POST PIU' RECENTI
     posts = await getterJson.GetNewPosts(isAdultContent);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < posts.length; i++) {
         html += await htmlBuilder.CreatePostView(posts[i]);
     }
     IndexInjector.InjecHtmlElement("PostsContainer", html);
@@ -32,7 +32,7 @@ async function Main()
     //CHIAMATA VECCHI POST
     html = "";
     posts = await getterJson.GetOldPosts(6, isAdultContent);
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < posts.length; i++) {
             html += await htmlBuilder.CreatePostView(posts[i]);
         }
     IndexInjector.InjecHtmlElement("PostsContainer", html);
