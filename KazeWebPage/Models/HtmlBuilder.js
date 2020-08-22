@@ -15,7 +15,7 @@ export default class HtmlBuilder
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "id", post.id);
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "title", post.title);
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "tags", post.tags);
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "isAdultContent", post.isAdultContentis ? 'NSFW' : '');
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "isAdultContent", post.isAdultContent ? 'NSFW' : '');
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "dateCreated", post.dateCreated);
         if(post.uris.length > 0) {
             let htmlFile = await HtmlBuilder.UrisManagement(this.pathTemplate, post.uris[0]);

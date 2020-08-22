@@ -4,41 +4,79 @@
 import GetterJson from './Models/GetterJson.js';
 import HtmlBuilder from './Models/HtmlBuilder.js';
 import IndexInjector from './Models/IndexInjector.js';
+import Post from './ViewModel/Post.js';
 
 async function Main() 
 {
     //Creazione dei componenti necessari
+    AOS.init();
     var getterJson = new GetterJson("https://localhost:5001", null);
     var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
     let posts = null;
     let html = "";
-    let isAdultContent = false;
+    let ObjPostList = [];
+    let isAdultContent = true;
 
-    //CHIAMATA GETNEWPOST X I POST PIU' RECENTI
     posts = await getterJson.GetNewPosts(isAdultContent);
-    for (let i = 0; i < posts.length; i++) {
-        html += await htmlBuilder.CreatePostView(posts[i]);
-    }
-    IndexInjector.InjecHtmlElement("PostsContainer", html);
+    await getNew();
 
-    //CHIAMATA GETNEWPOSTADULT X I POST PIU' RECENTI
     // posts = await getterJson.GetNewPostsAdult();
-    // for (let i = 0; i < posts.length; i++) {
-    //     console.log(posts);
-    //     html += await htmlBuilder.CreatePostView(posts[i]);
+    // await getNew();
+
+    posts = await getterJson.GetOldPosts(6, isAdultContent);
+    await getOld();
+
+    //#region GetOldPost
+    // html = "";
+    // posts = await getterJson.GetOldPosts(6, isAdultContent);
+
+    // if(posts.length > 0) {
+
+    //     for (let i = 0; i < posts.length; i++) {
+    //         ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+    //         html += await htmlBuilder.CreatePostView(ObjPostList[i]);
+    //     }
     // }
     // IndexInjector.InjecHtmlElement("PostsContainer", html);
+    //#endregion
 
-    //CHIAMATA VECCHI POST
-    html = "";
-    posts = await getterJson.GetOldPosts(6, isAdultContent);
+    //#region GetOldPostAdult
+    // html = "";
+    // posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length-1].id-1, isAdultContent);
+
+    // if(posts.length > 0) {
+
+    //     for (let i = 0; i < posts.length; i++) {
+    //         ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+    //         html += await htmlBuilder.CreatePostView(ObjPostList[i]);
+    //     }
+    // }
+    // IndexInjector.InjecHtmlElement("PostsContainer", html);
+    //#endregion
+    
+    
+    async function getNew() {
+        html = "";
+        ObjPostList = [];
         for (let i = 0; i < posts.length; i++) {
-            html += await htmlBuilder.CreatePostView(posts[i]);
+            ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+            html += await htmlBuilder.CreatePostView(ObjPostList[i])
         }
-    IndexInjector.InjecHtmlElement("PostsContainer", html);
+        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
+    }
+
+    async function getOld() {
+        html = "";
+        if (posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[(ObjPostList.length-1)+i]);
+            }
+            IndexInjector.InjecHtmlElement("PostsContainer", html);
+        }
+    }
 }
 Main();
-
 
 
 

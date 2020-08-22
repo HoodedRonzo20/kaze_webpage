@@ -21,8 +21,6 @@ export default class GetterJson
     async GetOldPosts(lastpostid, isAdultContent)
     {
         let url = this.domain + "/Post/Under?lastolder=" + lastpostid;
-        console.log(url);
-        
         if (isAdultContent) {
             url = url + "&isAdultContent=TRUE";
         }
@@ -32,7 +30,6 @@ export default class GetterJson
     async GetNewPostsAdult() 
     {
         let url = this.domain + "/Post/Adult";
-        console.log(url);
         return await GetterJson.RequestJsonAsync("GET", url, this.data);
     }
 
