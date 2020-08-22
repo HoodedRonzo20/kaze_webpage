@@ -9,15 +9,36 @@ export default class GetterJson
         this.data = data
     }
 
-    async GetNewPosts() 
+    async GetNewPosts(isAdultContent) 
     {
         let url = this.domain + "/Post";
+        if (isAdultContent) {
+            url = url + "?isAdultContent=TRUE";
+        }
         return await GetterJson.RequestJsonAsync("GET", url, this.data);
     }
 
-    async GetOldPosts(lastpostid)
+    async GetOldPosts(lastpostid, isAdultContent)
     {
         let url = this.domain + "/Post/Under?lastolder=" + lastpostid;
+        console.log(url);
+        
+        if (isAdultContent) {
+            url = url + "&isAdultContent=TRUE";
+        }
+        return await GetterJson.RequestJsonAsync("GET", url, this.data);
+    }
+//VISUALIZZAZIONE SOLO POST ADULTI
+    async GetNewPostsAdult() 
+    {
+        let url = this.domain + "/Post/Adult";
+        console.log(url);
+        return await GetterJson.RequestJsonAsync("GET", url, this.data);
+    }
+
+    async GetOldPostsAdult(lastpostid)
+    {
+        let url = this.domain + "/Post/Adult/Under?lastolder=" + lastpostid;
         return await GetterJson.RequestJsonAsync("GET", url, this.data);
     }
 

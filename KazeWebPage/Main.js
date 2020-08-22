@@ -12,23 +12,41 @@ async function Main()
     var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
     let posts = null;
     let html = "";
+    let isAdultContent = false;
 
     //CHIAMATA GETNEWPOST X I POST PIU' RECENTI
-    posts = await getterJson.GetNewPosts();
+    posts = await getterJson.GetNewPosts(isAdultContent);
     for (let i = 0; i < 3; i++) {
         html += await htmlBuilder.CreatePostView(posts[i]);
     }
     IndexInjector.InjecHtmlElement("PostsContainer", html);
 
+    //CHIAMATA GETNEWPOSTADULT X I POST PIU' RECENTI
+    // posts = await getterJson.GetNewPostsAdult();
+    // for (let i = 0; i < posts.length; i++) {
+    //     console.log(posts);
+    //     html += await htmlBuilder.CreatePostView(posts[i]);
+    // }
+    // IndexInjector.InjecHtmlElement("PostsContainer", html);
+
     //CHIAMATA VECCHI POST
     html = "";
-    posts = await getterJson.GetOldPosts(6);
+    posts = await getterJson.GetOldPosts(6, isAdultContent);
         for (let i = 0; i < 3; i++) {
             html += await htmlBuilder.CreatePostView(posts[i]);
         }
     IndexInjector.InjecHtmlElement("PostsContainer", html);
 }
 Main();
+
+
+
+
+
+
+
+
+
 
     // //CHIAMATA GETOLDPOST X I POST PIU VECCHI
     // $(window).scroll(function() {

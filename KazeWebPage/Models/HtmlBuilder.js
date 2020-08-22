@@ -11,24 +11,24 @@ export default class HtmlBuilder
     async CreatePostView(post) 
     {
         let path = `${this.pathTemplate}${Post.name}.html`;
-        let html = await HtmlBuilder.GetTextFromFile(path);
-        html = HtmlBuilder.RepleaceKey(html, "id", post.id);
-        html = HtmlBuilder.RepleaceKey(html, "title", post.title);
-        html = HtmlBuilder.RepleaceKey(html, "tags", post.tags);
-        html = HtmlBuilder.RepleaceKey(html, "isAdultContent", post.isAdultContent);
-        html = HtmlBuilder.RepleaceKey(html, "dateCreated", post.dateCreated);
-        html = await HtmlBuilder.UrisManagement(this.pathTemplate, post.uris[0]);
-        html = HtmlBuilder.RepleaceKey(html, "description", post.description);
-        html = HtmlBuilder.RepleaceKey(html, "nComments", post.nComments);
-        HtmlBuilder.UrisManagement(html);
-        return html;
+        let htmlPost = await HtmlBuilder.GetTextFromFile(path);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "id", post.id);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "title", post.title);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "tags", post.tags);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "isAdultContent", post.isAdultContent);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "dateCreated", post.dateCreated);
+        if(post.uris.length > 0) {
+            let stocazzo = await HtmlBuilder.UrisManagement(this.pathTemplate, post.uris[0]);
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", stocazzo);
+        }
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", post.description);
+        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "nComments", post.nComments);
+        return htmlPost;
     }
 
     static async UrisManagement(pathTemplate, uri) {
         let html = "";
-        console.log(uri.split("."));
         let arrayStr = uri.split(".");
-        console.log(arrayStr);
         let pathUris = `${pathTemplate}/Uris_View/`;
         switch(arrayStr[arrayStr.length-1]) {
             case "png":
@@ -44,6 +44,7 @@ export default class HtmlBuilder
             default:
                 html = await HtmlBuilder.GetTextFromFile(`${pathUris}File_Uri_View.html`);
                 html = HtmlBuilder.RepleaceKey(html, "File_Uri", uri);
+                html = HtmlBuilder.RepleaceKey(html, "File_Name", uri.split("/")[uri.split("/").length-1]);
                 break;
         } 
         return html;
