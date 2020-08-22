@@ -2,7 +2,7 @@
 export default class Post 
 {
 	constructor(id, title) {
-		this.id = SetId();
+		this.id = id;
 		this.title = title;
 	}
 

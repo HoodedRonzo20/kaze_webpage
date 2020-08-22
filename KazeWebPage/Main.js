@@ -5,16 +5,28 @@ import GetterJson from './Models/GetterJson.js';
 import HtmlBuilder from './Models/HtmlBuilder.js';
 import IndexInjector from './Models/IndexInjector.js';
 
-var getterJson = new GetterJson("https://localhost:5001", null);
-console.log("DOMAIN: " + getterJson.domain);
-console.log(getterJson.GetNewPosts());
+async function Main() 
+{
+    //Creazione dei componenti necessari
+    var getterJson = new GetterJson("https://localhost:5001", null);
+    var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
+    
+    console.log("DOMAIN: " + getterJson.domain);
 
-var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
-console.log(htmlBuilder.pathTemplate);
-console.log(htmlBuilder.CreatePostView("asd"));
+    let posts = await getterJson.GetNewPosts();
+    let html = "";
+    for (let i = 0; i < 3; i++) {
+        html += await htmlBuilder.CreatePostView(posts[i]);
+    }
+    console.log(html);
+    IndexInjector.InjecHtmlElement("PostsContainer", html);
+    // .then(responseResult => {
+    //     return responseResult;
+    // }));
 
+}
+Main();
 
-console.log("Finish!");
 //Evento di caricamento post successivi
 // $(window).scroll(function() {
 //     if($(window).scrollTop() == $(document).height() - $(window).height()) {

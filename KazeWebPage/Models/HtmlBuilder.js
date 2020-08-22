@@ -12,8 +12,14 @@ export default class HtmlBuilder
     {
         let path = this.pathTemplate + Post.name + ".html";
         let html = await HtmlBuilder.GetTextFromFile(path);
-        html = HtmlBuilder.RepleaceKey(html, "id", 5);
-        console.log(html);
+        html = HtmlBuilder.RepleaceKey(html, "id", post.id);
+        html = HtmlBuilder.RepleaceKey(html, "title", post.title);
+        html = HtmlBuilder.RepleaceKey(html, "tags", post.tags);
+        html = HtmlBuilder.RepleaceKey(html, "isAdultContent", post.isAdultContent);
+        html = HtmlBuilder.RepleaceKey(html, "dateCreated", post.dateCreated);
+        html = HtmlBuilder.RepleaceKey(html, "uris", post.uris);
+        html = HtmlBuilder.RepleaceKey(html, "description", post.description);
+        html = HtmlBuilder.RepleaceKey(html, "nComments", post.nComments);
         return html;
     }
     async CreateCommentView(comment) 
@@ -26,8 +32,6 @@ export default class HtmlBuilder
     {
         return await fetch(path).then(function(response) {
             return response.text();
-        }).then(function(data) {
-            return data;
         });             
     }
 

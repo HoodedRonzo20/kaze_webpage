@@ -5,14 +5,17 @@ export default class IndexInjector
     //     this.value = value
     // }
 
-    static InjecHtmlElement(insideIn, element) 
+    static InjecHtmlElement(elementId, element) 
     {
-        let retBool = false
-        if(insideIn != null)
+        let retBool = true;
+        if(document.getElementById(elementId))
         {
-            let div = document.querySelector(insideIn);
-            div.innerHTML = element;
-            retBool = true;
+            try {
+                document.getElementById(elementId).innerHTML += element;
+            } catch (error) {
+                retBool = false;
+                console.error(error);
+            }
         }
         return retBool
     }

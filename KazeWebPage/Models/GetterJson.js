@@ -1,3 +1,5 @@
+import Post from '../ViewModel/Post.js';
+
 //export default - serve per consentire l'import su unaltro file js
 export default class GetterJson 
 {
@@ -10,10 +12,7 @@ export default class GetterJson
     async GetNewPosts() 
     {
         let url = this.domain + "/Post";
-        let json;
-        //json = GetterJson.RequestJsonJQuery(url);
-        json = await GetterJson.RequestJsonAsync("GET", url, this.data);
-        return json
+        return await GetterJson.RequestJsonAsync("GET", url, this.data);
     }
 
     static async RequestJsonAsync(method, url, data) 
@@ -47,8 +46,6 @@ export default class GetterJson
             //     }
             // };
             xhr.send(JSON.stringify(data));
-        }).then(responseResult => {
-            return responseResult;
-        }).catch(err => {console.log(err);});
+        }).then().catch(err => {console.log(err);});
     }
 }
