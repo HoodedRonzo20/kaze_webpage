@@ -6,85 +6,71 @@ import HtmlBuilder from './Models/HtmlBuilder.js';
 import IndexInjector from './Models/IndexInjector.js';
 import Post from './ViewModel/Post.js';
 
-async function Main() 
-{
+async function Main() {
     //Creazione dei componenti necessari
     AOS.init();
     var getterJson = new GetterJson("https://localhost:5001", null);
     var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
     let posts = null;
     let html = "";
-    let ObjPostList = [];
-    let isAdultContent = true;
+    let ObjPostList = []; //Lista di oggetti
+    let isAdultContent = true; // Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
+    let isSoloAdultContent = true; //Asseconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
 
-    posts = await getterJson.GetNewPosts(isAdultContent);
-    await getNew();
-
-    // posts = await getterJson.GetNewPostsAdult();
-    // await getNew();
-
-    posts = await getterJson.GetOldPosts(6, isAdultContent);
-    await getOld();
-
-    //#region GetOldPost
-    // html = "";
-    // posts = await getterJson.GetOldPosts(6, isAdultContent);
-
-    // if(posts.length > 0) {
-
-    //     for (let i = 0; i < posts.length; i++) {
-    //         ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-    //         html += await htmlBuilder.CreatePostView(ObjPostList[i]);
-    //     }
-    // }
-    // IndexInjector.InjecHtmlElement("PostsContainer", html);
-    //#endregion
-
-    //#region GetOldPostAdult
-    // html = "";
-    // posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length-1].id-1, isAdultContent);
-
-    // if(posts.length > 0) {
-
-    //     for (let i = 0; i < posts.length; i++) {
-    //         ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-    //         html += await htmlBuilder.CreatePostView(ObjPostList[i]);
-    //     }
-    // }
-    // IndexInjector.InjecHtmlElement("PostsContainer", html);
-    //#endregion
-    
-    
-    async function getNew() {
+    if(isSoloAdultContent) {
+        //#region GetNewPostsAdult
         html = "";
-        ObjPostList = [];
-        for (let i = 0; i < posts.length; i++) {
-            ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-            html += await htmlBuilder.CreatePostView(ObjPostList[i])
-        }
-        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
-    }
-
-    async function getOld() {
-        html = "";
+        posts = await getterJson.GetNewPostsAdult();
         if (posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[(ObjPostList.length-1)+i]);
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
             }
             IndexInjector.InjecHtmlElement("PostsContainer", html);
         }
+        //#endregion GetNewPostsAdult
+        
+        //#region GetOldPostsAdult
+        html = "";
+        posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length-1].id-1);
+        if(posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+            }
+        }
+        IndexInjector.InjecHtmlElement("PostsContainer", html);
+        //#endregion GetOldPostsAdult
+
+    } else {
+        //#region GetNewPosts
+        html = "";
+        ObjPostList = [];
+        posts = await getterJson.GetNewPosts(isAdultContent);
+        if (posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[i])
+            }
+        }
+        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
+        //#endregion GetNewPosts
+
+        //#region GetOldPosts
+        html = "";
+        posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length-1].id-1, isAdultContent);
+        if(posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+            }
+        }
+        IndexInjector.InjecHtmlElement("PostsContainer", html);
+        //#endregion GetOldPosts
     }
 }
+//Il metodo Main() simula la StartUp di tutta la logica della webpage
 Main();
-
-
-
-
-
-
-
-
 
     // //CHIAMATA GETOLDPOST X I POST PIU VECCHI
     // $(window).scroll(function() {
