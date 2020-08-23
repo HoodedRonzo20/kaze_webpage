@@ -72,6 +72,36 @@ async function Main() {
 //Il metodo Main() simula la StartUp di tutta la logica della webpage
 Main();
 
+object.addEventListener("click", Home());
+function Home() {
+    if(isSoloAdultContent) {
+        //#region GetNewPostsAdult
+        html = "";
+        posts = await getterJson.GetNewPostsAdult();
+        if (posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+            }
+            IndexInjector.InjecHtmlElement("PostsContainer", html);
+        }
+        //#endregion GetNewPostsAdult
+    } else {
+        //#region GetNewPosts
+        html = "";
+        ObjPostList = [];
+        posts = await getterJson.GetNewPosts(isAdultContent);
+        if (posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[i])
+            }
+        }
+        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
+        //#endregion GetNewPosts
+    }
+}
+
     // //CHIAMATA GETOLDPOST X I POST PIU VECCHI
     // $(window).scroll(function() {
     //     if($(window).scrollTop() == $(document).height() - $(window).height()) {
