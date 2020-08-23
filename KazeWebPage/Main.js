@@ -10,12 +10,12 @@ async function Main() {
     //Creazione dei componenti necessari
     AOS.init();
     var getterJson = new GetterJson("https://localhost:5001", null);
-    var htmlBuilder = new HtmlBuilder("./KazeWebPage/View/");
+    var htmlBuilder = new HtmlBuilder("./KazeWebPage/View");
     let posts = null;
     let html = "";
     let ObjPostList = []; //Lista di oggetti
     let isAdultContent = true; // Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
-    let isSoloAdultContent = true; //Asseconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
+    let isSoloAdultContent = false; //Asseconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
 
     if(isSoloAdultContent) {
         //#region GetNewPostsAdult
