@@ -59,12 +59,18 @@ export default class HtmlBuilder
         let html = "";
         let arrayStr = uri.split(".");
         let pathUris = `${pathTemplate}/Uris_View`;
-        switch(arrayStr[arrayStr.length-1]) {
+        switch(arrayStr[arrayStr.length-1].toLowerCase()) {
             case "png":
             case "jpeg":
             case "jpg":
                 html = await HtmlBuilder.GetTextFromFile(`${pathUris}/Img_Uri_View.html`);
                 html = HtmlBuilder.RepleaceKey(html, "Img_Uri", uri);
+                break;
+            case "mp3":
+            case "wav":
+            case "ogg":
+                html = await HtmlBuilder.GetTextFromFile(`${pathUris}/Audio_Uri_View.html`);
+                html = HtmlBuilder.RepleaceKey(html, "Audio_Uri", uri);
                 break;
             case "mp4":
                 html = await HtmlBuilder.GetTextFromFile(`${pathUris}/Video_Uri_View.html`);
@@ -73,9 +79,9 @@ export default class HtmlBuilder
             default:
                 html = await HtmlBuilder.GetTextFromFile(`${pathUris}/File_Uri_View.html`);
                 html = HtmlBuilder.RepleaceKey(html, "File_Uri", uri);
-                html = HtmlBuilder.RepleaceKey(html, "File_Name", uri.split("/")[uri.split("/").length-1]);
                 break;
-        } 
+            } 
+        html = HtmlBuilder.RepleaceKey(html, "File_Name", uri.split("/")[uri.split("/").length-1]);
         return html;
     }
 
