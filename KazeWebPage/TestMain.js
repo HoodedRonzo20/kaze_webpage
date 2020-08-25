@@ -3,7 +3,7 @@
 
 import GetterJson from './Models/GetterJson.js';
 import HtmlBuilder from './Models/HtmlBuilder.js';
-import IndexInjector from './Models/IndexInjector.js';
+import IndexManager from './Models/IndexManager.js';
 import Post from './ViewModel/Post.js';
 
 async function Main() {
@@ -26,7 +26,7 @@ async function Main() {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
                 html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
             }
-            IndexInjector.InjecHtmlElement("PostsContainer", html);
+            IndexManager.InjecHtmlElement("PostsContainer", html);
         }
         //#endregion GetNewPostsAdult
         
@@ -39,7 +39,7 @@ async function Main() {
                 html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
             }
         }
-        IndexInjector.InjecHtmlElement("PostsContainer", html);
+        IndexManager.InjecHtmlElement("PostsContainer", html);
         //#endregion GetOldPostsAdult
 
     } else {
@@ -53,7 +53,7 @@ async function Main() {
                 html += await htmlBuilder.CreatePostView(ObjPostList[i])
             }
         }
-        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
+        IndexManager.ReplaceHtmlContent("PostsContainer", html);
         //#endregion GetNewPosts
 
         //#region GetOldPosts
@@ -65,7 +65,7 @@ async function Main() {
                 html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
             }
         }
-        IndexInjector.InjecHtmlElement("PostsContainer", html);
+        IndexManager.InjecHtmlElement("PostsContainer", html);
         //#endregion GetOldPosts
     }
 }
@@ -83,7 +83,7 @@ function Home() {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
                 html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
             }
-            IndexInjector.InjecHtmlElement("PostsContainer", html);
+            IndexManager.InjecHtmlElement("PostsContainer", html);
         }
         //#endregion GetNewPostsAdult
     } else {
@@ -97,7 +97,7 @@ function Home() {
                 html += await htmlBuilder.CreatePostView(ObjPostList[i])
             }
         }
-        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
+        IndexManager.ReplaceHtmlContent("PostsContainer", html);
         //#endregion GetNewPosts
     }
 }
@@ -110,7 +110,7 @@ function Home() {
     //             for (let i = 0; i < 3; i++) {
     //                 html += await htmlBuilder.CreatePostView(posts[i]);
     //             }
-    //             IndexInjector.InjecHtmlElement("PostsContainer", html);
+    //             IndexManager.InjecHtmlElement("PostsContainer", html);
     //         } 
     //         x;
     //     };

@@ -1,6 +1,6 @@
 import GetterJson from './Models/GetterJson.js';
 import HtmlBuilder from './Models/HtmlBuilder.js';
-import IndexInjector from './Models/IndexInjector.js';
+import IndexManager from './Models/IndexManager.js';
 import Post from './ViewModel/Post.js';
 //Creazione dei componenti necessari
 $( document ).ready(function() {
@@ -20,10 +20,11 @@ function GetIsSoloAdultContent() {return document.getElementById("isSoloAdultCon
 
 Home();
 
-//EventList
+//EventList LoadPost
 document.getElementById("btnHome").addEventListener("click", Home);
 document.getElementById("isSoloAdultContentCheck").addEventListener("click", Home);
-
+//Event Load form to add new Post
+document.getElementById("AddPostDetail").addEventListener("click", LoadFormAddPostDetail);
 
 
     //CHIAMATA GETOLDPOST X I POST PIU VECCHI    
@@ -51,7 +52,6 @@ async function Home() {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
                 html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
             }
-            IndexInjector.ReplaceHtmlElement("PostsContainer", html);
         }
         //#endregion GetNewPostsAdult
     } else {
@@ -65,13 +65,12 @@ async function Home() {
                 html += await htmlBuilder.CreatePostView(ObjPostList[i])
             }
         }
-        IndexInjector.ReplaceHtmlElement("PostsContainer", html);
         //#endregion GetNewPosts
     }
+    IndexManager.ReplaceHtmlContent("PostsContainer", html);
 }
 
 async function LoadMorePost() {
-    console.log("SCROLL!!!!!!!!!!!!!");
     if(ObjPostList.length > 0){
         if(GetIsSoloAdultContent()) {
             //#region GetOldPostsAdult
@@ -83,7 +82,6 @@ async function LoadMorePost() {
                     html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
                 }
             }
-            IndexInjector.InjecHtmlElement("PostsContainer", html);
             //#endregion GetOldPostsAdult
         } else {
             //#region GetOldPosts
@@ -95,8 +93,14 @@ async function LoadMorePost() {
                     html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
                 }
             }
-            IndexInjector.InjecHtmlElement("PostsContainer", html);
             //#endregion GetOldPosts
         }
+        IndexManager.InjecHtmlElement("PostsContainer", html);
     } else { console.log(`La lista di ObjPostList contiene ${ObjPostList.length} post, per tanto non puo caricare post precendenti`); }
+}
+
+async function LoadFormAddPostDetail() 
+{
+    htmlAddPostDetail = await htmlBuilder.GetHtmlAddPostDetail();
+    IndexManager.ReplaceHtmlContent("PostsContainer", html)
 }

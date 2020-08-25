@@ -1,4 +1,4 @@
-export default class IndexInjector
+export default class IndexManager
 {
     // constructor(value) 
     // {
@@ -25,7 +25,7 @@ export default class IndexInjector
         return retBool
     }
 
-    static ReplaceHtmlElement(elementId, element) 
+    static ReplaceHtmlContent(elementId, element) 
     {
         let retBool = true;
         if(document.getElementById(elementId))
@@ -38,6 +38,16 @@ export default class IndexInjector
             }
         }
         return retBool
+    }
+
+    static GetValuesFromNewPostDetail() 
+    {
+        document.getElementById(elementId).innerHTML = element;
+    }
+    
+    static GetValuesFromNewComment() 
+    {
+
     }
 }
 
