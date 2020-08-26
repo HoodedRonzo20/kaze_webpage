@@ -3,8 +3,8 @@ import HtmlBuilder from './Models/HtmlBuilder.js';
 import IndexManager from './Models/IndexManager.js';
 import Post from './ViewModel/Post.js';
 //Creazione dei componenti necessari
-AOS.init();
-var getterJson = new GetterJson("https://192.168.1.3:25565", null); //"https://localhost:5001", null);
+AOS.init();                     // "https://5.95.151.239:25565"
+var getterJson = new GetterJson("https://localhost:5001", null);
 var htmlBuilder = new HtmlBuilder("./KazeWebPage/View");
 var html = "";
 var ObjPostList = []; //Lista di oggetti Post
