@@ -20,17 +20,11 @@ function GetIsSoloAdultContent() {return document.getElementById("isSoloAdultCon
 //EventList LoadPost
 document.getElementById("btnHome").addEventListener("click", Home);
 document.getElementById("isSoloAdultContentCheck").addEventListener("click", Home);
-//Event Load form to add new Post
-document.getElementById("btnAddPostDetail").addEventListener("click", function() {
-    
-    if(eleAddPost.style.display == "none") {
-        elePosts.style.display = "none";
-        eleAddPost.style.display = "block";
-    }
-});
+//Event Mostra il Form per la creazione di un post
+document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
 
 
-//CHIAMATA GETOLDPOST X I POST PIU VECCHI
+//CHIAMATA GetOldPost X I POST PIU VECCHI (DA FARE IN JS PURO)
 $(window).scroll(async function() {
     if($(window).scrollTop() == $(document).height() - $(window).height()) {
         if(GetIsSoloAdultContent() && ObjPostList[ObjPostList.length-1].id > 3) {
@@ -47,6 +41,13 @@ StartUp();
 async function StartUp() {
     Home();
     LoadFormAddPostDetail();
+}
+
+function ShowAddPost() {
+    if(eleAddPost.style.display == "none") {
+        elePosts.style.display = "none";
+        eleAddPost.style.display = "block";
+    }
 }
 
 async function Home() {
