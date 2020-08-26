@@ -22,19 +22,16 @@ document.getElementById("isSoloAdultContentCheck").addEventListener("click", Hom
 document.getElementById("btnAddPostDetail").addEventListener("click", function() {
     let eleAddPost = document.getElementById("SectionAddPost");
     let elePosts = document.getElementById("SectionPosts");
+    console.log(eleAddPost.style.visibility);
     
-    if(eleAddPost.getAttribute('visibility') == "hidden") {
-        elePosts.setAttribute("visibility", "hidden");
-        elePosts.setAttribute("display", "none");
+    if(eleAddPost.style.visibility == "collapse") {
+        elePosts.style.visibility == "collapse";
         
-        eleAddPost.setAttribute("display", "inline");
-        eleAddPost.setAttribute("visibility", "visible");
+        eleAddPost.style.visibility == "visible";
     } else {
-        eleAddPost.setAttribute("visibility", "hidden");
-        eleAddPost.setAttribute("display", "none");
+        eleAddPost.style.visibility == "collapse";
 
-        elePosts.setAttribute("display", "inline");
-        elePosts.setAttribute("visibility", "visible");
+        elePosts.style.visibility == "visible";
     }
 });
 

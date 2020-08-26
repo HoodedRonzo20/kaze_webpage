@@ -15,14 +15,12 @@ section {
     margin: 0;
 }
 
-#SectionAddPost {
-    visibility: hidden;
-    display: none;
-}
-
 #SectionPosts {
     visibility: visible;
-    display: inline;
+}
+
+#SectionAddPost {
+    visibility: collapse;
 }
 
 footer p {
