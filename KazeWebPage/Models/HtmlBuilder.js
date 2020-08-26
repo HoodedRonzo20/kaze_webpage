@@ -119,7 +119,7 @@ export default class HtmlBuilder
     async GetHtmlAddPostDetail()
     {
         let path = `${this.pathTemplate}/FormAddPostDetail.html`;
-        let html = await HtmlBuilder.GetTextFromFile(path);
+        return await HtmlBuilder.GetTextFromFile(path);
     }
 
     async GetHtmlAddComment()
@@ -144,13 +144,9 @@ export default class HtmlBuilder
     {
         let htmlEdit = mainStr;
         let keywordAdapted = `:|§${keyword}§|:`;
-        // if(replaceStr !== null && replaceStr !== '') {
         do {
             htmlEdit = htmlEdit.replace(keywordAdapted, replaceStr);
         } while(htmlEdit.split(keywordAdapted).length > 1)
-        // } else {
-        //     htmlEdit = mainStr.replace(keywordAdapted, '');
-        // }
         return  htmlEdit;
     }
 

@@ -5,13 +5,13 @@ export default class IndexManager
     //     this.value = value
     // }
 
-    static InjecHtmlElement(elementId, element) 
+    static InjecHtmlContent(elementId, content) 
     {
         let retBool = true;
         if(document.getElementById(elementId))
         {
             try {
-                document.getElementById(elementId).innerHTML += element;
+                document.getElementById(elementId).innerHTML += content;
             } catch (error) {
                 retBool = false;
                 console.error(error);
@@ -25,13 +25,13 @@ export default class IndexManager
         return retBool
     }
 
-    static ReplaceHtmlContent(elementId, element) 
+    static ReplaceHtmlContent(elementId, content) 
     {
         let retBool = true;
         if(document.getElementById(elementId))
         {
             try {
-                document.getElementById(elementId).innerHTML = element;
+                document.getElementById(elementId).innerHTML = content;
             } catch (error) {
                 retBool = false;
                 console.error(error);
@@ -42,7 +42,7 @@ export default class IndexManager
 
     static GetValuesFromNewPostDetail() 
     {
-        document.getElementById(elementId).innerHTML = element;
+        document.getElementById(elementId).innerHTML =content;
     }
     
     static GetValuesFromNewComment() 

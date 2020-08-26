@@ -12,21 +12,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" type="text/css" href="css/override.css">
     <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="shortcut icon" href="">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/override.css">
 </head>
 
 <body>
     <!-- Place your content here -->
     <header>
         <!-- Navbar -->
-                <!-- navbar navbar-expand-lg navbar-dark bg-dark -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <img src="./favicon.ico" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
             <a class="navbar-brand" href="#">Kaze</a>
@@ -36,9 +34,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <button id="btnHome" type="button" class="btn btn-secondary">Home</button>
+                    <!-- <button id="btnHome" type="button" class="btn btn-secondary">Home</button>
                     <li class="nav-item">
                         <a id="AddPostDetail" class="nav-link" href="#">Add Post</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="options" id="btnHome" autocomplete="off" checked> Home
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="options" id="btnAddPostDetail" autocomplete="off"> Add Post
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+                            </label>
+                        </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -57,8 +68,7 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <span class="badge badge-danger mr-sm-2">NSFW:
-                    </span>
+                    <span class="badge badge-danger mr-sm-2">NSFW:</span>
                     <!-- Rounded switch -->
                     <label class="switch mr-sm-2">
                         <input id="isSoloAdultContentCheck" type="checkbox">
@@ -75,14 +85,21 @@
 
     <!-- Selection #1 Posts  -->
     <section id="SectionPosts" class="jumbotron text-center">
+        <div id="PostsContainer" class="container text-center col-sm text-center align-center">
+
+        </div>
+    </section>
+    
+    <!-- Selection #2 AddPost  -->
+    <!-- <section id="SectionAddPost" class="jumbotron text-center bg-dark">
         <div class="container text-center col-sm text-center align-self-center">
             <div class="row">
-                <div id="PostsContainer" class="col">
+                <div id="AddPostContainer" class="col">
 
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Footer -->
     <footer>
