@@ -20,7 +20,7 @@ section {
 }
 
 #SectionAddPost {
-    visibility: collapse;
+    display: none;
 }
 
 footer p {

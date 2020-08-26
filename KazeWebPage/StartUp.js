@@ -9,6 +9,8 @@ var htmlBuilder = new HtmlBuilder("./KazeWebPage/View");
 var html = "";
 var ObjPostList = []; //Lista di oggetti Post
 var ObjCommentList = []; //Lista di oggetti Post
+let eleAddPost = document.getElementById("SectionAddPost");
+let elePosts = document.getElementById("SectionPosts");
 //GetIsAdultContent() Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
 function GetIsAdultContent() {return false;}
 
@@ -20,24 +22,16 @@ document.getElementById("btnHome").addEventListener("click", Home);
 document.getElementById("isSoloAdultContentCheck").addEventListener("click", Home);
 //Event Load form to add new Post
 document.getElementById("btnAddPostDetail").addEventListener("click", function() {
-    let eleAddPost = document.getElementById("SectionAddPost");
-    let elePosts = document.getElementById("SectionPosts");
-    console.log(eleAddPost.style.visibility);
     
-    if(eleAddPost.style.visibility == "collapse") {
-        elePosts.style.visibility == "collapse";
-        
-        eleAddPost.style.visibility == "visible";
-    } else {
-        eleAddPost.style.visibility == "collapse";
-
-        elePosts.style.visibility == "visible";
+    if(eleAddPost.style.display == "none") {
+        elePosts.style.display = "none";
+        eleAddPost.style.display = "block";
     }
 });
 
 
 //CHIAMATA GETOLDPOST X I POST PIU VECCHI
-$(window).scroll(function() {
+$(window).scroll(async function() {
     if($(window).scrollTop() == $(document).height() - $(window).height()) {
         if(GetIsSoloAdultContent() && ObjPostList[ObjPostList.length-1].id > 3) {
             LoadMorePost();
@@ -56,6 +50,8 @@ async function StartUp() {
 }
 
 async function Home() {
+    elePosts.style.display = "block";
+    eleAddPost.style.display = "none";
     console.log("HOME!");
     if(GetIsSoloAdultContent()) {
         //#region GetNewPostsAdult
