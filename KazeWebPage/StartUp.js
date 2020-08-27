@@ -11,6 +11,8 @@ var ObjPostList = []; //Lista di oggetti Post
 var ObjCommentList = []; //Lista di oggetti Post
 let eleAddPost = document.getElementById("SectionAddPost");
 let elePosts = document.getElementById("SectionPosts");
+let uriCounter = 0;
+let inputFileBar = "";
 //GetIsAdultContent() Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
 function GetIsAdultContent() {return false;}
 
@@ -113,5 +115,20 @@ async function LoadMorePost() {
 
 async function LoadFormAddPostDetail() {
     let htmlAddPostDetail = await htmlBuilder.GetHtmlAddPostDetail();
-    IndexManager.ReplaceHtmlContent("AddPostContainer", htmlAddPostDetail)
+    IndexManager.ReplaceHtmlContent("AddPostContainer", htmlAddPostDetail);
+    document.getElementById("btnAddUri").addEventListener("click", ShowUrls);
+    document.getElementById("btnRemoveUri").addEventListener("click", DeleteUrls);
+}
+
+
+function ShowUrls() {
+    uriCounter++;
+    inputFileBar = '<input type="text" class="form-control" id="inputUri' + uriCounter + '" placeholder="Separate every tag with a"> <br>';
+    IndexManager.InjecHtmlContent("addURL", inputFileBar);
+}
+
+function DeleteUrls() {
+    let child = document.getElementById("inputUri" + uriCounter);
+    document.getElementById("addURL").removeChild(child);
+    uriCounter--;
 }
