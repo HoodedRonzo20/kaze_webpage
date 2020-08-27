@@ -120,15 +120,24 @@ async function LoadFormAddPostDetail() {
     document.getElementById("btnRemoveUri").addEventListener("click", DeleteUrls);
 }
 
-
 function ShowUrls() {
-    uriCounter++;
-    inputFileBar = '<input type="text" class="form-control" id="inputUri' + uriCounter + '" placeholder="Separate every tag with a"> <br>';
-    IndexManager.InjecHtmlContent("addURL", inputFileBar);
+    if (uriCounter < 3){
+        uriCounter++;
+        inputFileBar = '<input type="text" class="form-control" id="inputUri' + uriCounter + '" placeholder="Insert URL '+ uriCounter + '">';
+        document.getElementById("btnRemoveUri").disabled = false;
+        IndexManager.InjecHtmlContent("addURL", inputFileBar);
+    }
+    else {
+        document.getElementById("btnAddUri").disabled = true;
+    }
 }
 
 function DeleteUrls() {
     let child = document.getElementById("inputUri" + uriCounter);
     document.getElementById("addURL").removeChild(child);
     uriCounter--;
+    if (uriCounter == 0){ 
+        document.getElementById("btnRemoveUri").disabled = true;
+        document.getElementById("btnAddUri").disabled = false;
+    }
 }
