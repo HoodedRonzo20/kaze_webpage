@@ -25,7 +25,6 @@ document.getElementById("isSoloAdultContentCheck").addEventListener("click", Hom
 //Event Mostra il Form per la creazione di un post
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
 
-
 //CHIAMATA GetOldPost X I POST PIU VECCHI (DA FARE IN JS PURO)
 $(window).scroll(async function() {
     if($(window).scrollTop() == $(document).height() - $(window).height()) {
