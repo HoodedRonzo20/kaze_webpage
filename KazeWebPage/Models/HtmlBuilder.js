@@ -1,15 +1,12 @@
 import Comment from '../ViewModel/Comment.js';
 import Post from '../ViewModel/Post.js';
 
-export default class HtmlBuilder 
-{
-    constructor(pathTemplate) 
-    {
+export default class HtmlBuilder {
+    constructor(pathTemplate) {
         this.pathTemplate = pathTemplate
     }
 
-    async CreatePostDetailView(post) 
-    {
+    async CreatePostDetailView(post) {
         let path = `${this.pathTemplate}/${Post.name}.html`;
         let htmlPost = await HtmlBuilder.GetTextFromFile(path);
         //Insert id
@@ -24,14 +21,14 @@ export default class HtmlBuilder
         //Insert data di creazione
         htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "dateCreated", post.dateCreated);
         //Insert del primo URI se esisten altimenti la descrizione
-        if(post.uris.length > 0) {
-            for(let i = 0; i < post.uris.length; i++) {
+        if (post.uris.length > 0) {
+            for (let i = 0; i < post.uris.length; i++) {
                 let htmlFile = await HtmlBuilder.CreateHtmlUrisManagement(this.pathTemplate, post.uris);
                 htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", htmlFile);
                 htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", "");
             }
-        } else { 
-            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", ""); 
+        } else {
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", "");
             htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", post.description);
         }
         //Insert numero dei commenti
@@ -39,8 +36,7 @@ export default class HtmlBuilder
         return htmlPost;
     }
 
-    async CreatePostView(post) 
-    {
+    async CreatePostView(post) {
         let path = `${this.pathTemplate}/${Post.name}.html`;
         let htmlPost = await HtmlBuilder.GetTextFromFile(path);
         //Insert id
@@ -55,21 +51,20 @@ export default class HtmlBuilder
         //Insert data di creazione
         htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "dateCreated", post.dateCreated);
         //Insert del primo URI se esisten altimenti la descrizione
-        if(post.uris.length > 0) {
+        if (post.uris.length > 0) {
             let htmlFile = await HtmlBuilder.CreateHtmlUrisManagement(this.pathTemplate, post.uris[0]);
             htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", htmlFile);
             htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", "");
-        } else { 
-            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", ''); 
+        } else {
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", '');
             htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", post.description);
         }
         //Insert numero dei commenti
         htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "nComments", post.nComments);
         return htmlPost;
     }
-    
-    async CreateCommentView(comment) 
-    {
+
+    async CreateCommentView(comment) {
         let path = `${this.pathTemplate}/${Comment.name}.html`;
         let html = await HtmlBuilder.GetTextFromFile(path);
         return "asd";
@@ -90,7 +85,7 @@ export default class HtmlBuilder
         let html = "";
         let arrayStr = uri.split(".");
         let pathUris = `${pathTemplate}/Uris_View`;
-        switch(arrayStr[arrayStr.length-1].toLowerCase()) {
+        switch (arrayStr[arrayStr.length - 1].toLowerCase()) {
             case "png":
             case "jpeg":
             case "jpg":
@@ -111,49 +106,44 @@ export default class HtmlBuilder
                 html = await HtmlBuilder.GetTextFromFile(`${pathUris}/File_Uri_View.html`);
                 html = HtmlBuilder.RepleaceAllKey(html, "File_Uri", uri);
                 break;
-            } 
-        html = HtmlBuilder.RepleaceAllKey(html, "File_Name", uri.split("/")[uri.split("/").length-1]);
+        }
+        html = HtmlBuilder.RepleaceAllKey(html, "File_Name", uri.split("/")[uri.split("/").length - 1]);
         return html;
     }
 
-    async GetHtmlAddPostDetail()
-    {
+    async GetHtmlAddPostDetail() {
         let path = `${this.pathTemplate}/FormAddPostDetail.html`;
         return await HtmlBuilder.GetTextFromFile(path);
     }
 
-    async GetHtmlAddComment()
-    {
+    async GetHtmlAddComment() {
         let path = `${this.pathTemplate}/FormAddComment.html`;
         let html = await HtmlBuilder.GetTextFromFile(path);
     }
 
-    static RepleaceKey(mainStr, keyword, replaceStr)
-    {
+    static RepleaceKey(mainStr, keyword, replaceStr) {
         let htmlEdit;
         let keywordAdapted = `:|§${keyword}§|:`;
         // if(replaceStr !== null && replaceStr !== '') {
-            htmlEdit = mainStr.replace(keywordAdapted, replaceStr);
+        htmlEdit = mainStr.replace(keywordAdapted, replaceStr);
         // } else {
         //     htmlEdit = mainStr.replace(keywordAdapted, '');
         // }
-        return  htmlEdit;
+        return htmlEdit;
     }
 
-    static RepleaceAllKey(mainStr, keyword, replaceStr)
-    {
+    static RepleaceAllKey(mainStr, keyword, replaceStr) {
         let htmlEdit = mainStr;
         let keywordAdapted = `:|§${keyword}§|:`;
         do {
             htmlEdit = htmlEdit.replace(keywordAdapted, replaceStr);
-        } while(htmlEdit.split(keywordAdapted).length > 1)
-        return  htmlEdit;
+        } while (htmlEdit.split(keywordAdapted).length > 1)
+        return htmlEdit;
     }
 
-    static async GetTextFromFile(path) 
-    {
-        return await fetch(path).then(function(response) {
+    static async GetTextFromFile(path) {
+        return await fetch(path).then(function (response) {
             return response.text();
-        });             
+        });
     }
 }

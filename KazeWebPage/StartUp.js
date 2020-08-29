@@ -1,10 +1,13 @@
 import GetterJson from './Models/GetterJson.js';
+import Factory from './Models/Factory.js';
 import HtmlBuilder from './Models/HtmlBuilder.js';
 import IndexManager from './Models/IndexManager.js';
 import Post from './ViewModel/Post.js';
+import Comment from './ViewModel/Comment.js';
 //Creazione dei componenti necessari
-AOS.init();                     // "https://5.95.151.239:25565"
+AOS.init(); // "https://5.95.151.239:25565"
 var getterJson = new GetterJson("https://localhost:5001", null);
+var factory = new Factory("");
 var htmlBuilder = new HtmlBuilder("./KazeWebPage/View");
 var html = "";
 var ObjPostList = []; //Lista di oggetti Post
@@ -13,11 +16,28 @@ let eleAddPost = document.getElementById("SectionAddPost");
 let elePosts = document.getElementById("SectionPosts");
 let uriCounter = 0;
 let inputFileBar = "";
+
+// let x = new Comment("ASD");
+// console.log(x.GetId());
+// x.#id = "is change"
+// console.log(x.#Id);
+function XML() {
+
+    console.log(Factory.IsValidId(""));
+    console.log(`Eccezione è propagata`)
+
+}
+XML();
+
 //GetIsAdultContent() Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
-function GetIsAdultContent() {return false;}
+function GetIsAdultContent() {
+    return false;
+}
 
 //Asseconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
-function GetIsSoloAdultContent() {return document.getElementById("isSoloAdultContentCheck").checked;}
+function GetIsSoloAdultContent() {
+    return document.getElementById("isSoloAdultContentCheck").checked;
+}
 
 //EventList LoadPost
 document.getElementById("btnHome").addEventListener("click", Home);
@@ -26,12 +46,11 @@ document.getElementById("isSoloAdultContentCheck").addEventListener("click", Hom
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
 
 //CHIAMATA GetOldPost X I POST PIU VECCHI (DA FARE IN JS PURO)
-$(window).scroll(async function() {
-    if($(window).scrollTop() == $(document).height() - $(window).height()) {
-        if(GetIsSoloAdultContent() && ObjPostList[ObjPostList.length-1].id > 3) {
+$(window).scroll(async function () {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        if (GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 3) {
             LoadMorePost();
-        }
-        else if(!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length-1].id > 1) {
+        } else if (!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 1) {
             LoadMorePost();
         }
     };
@@ -45,7 +64,7 @@ async function StartUp() {
 }
 
 function ShowAddPost() {
-    if(eleAddPost.style.display == "none") {
+    if (eleAddPost.style.display == "none") {
         elePosts.style.display = "none";
         eleAddPost.style.display = "block";
     }
@@ -55,7 +74,7 @@ async function Home() {
     elePosts.style.display = "block";
     eleAddPost.style.display = "none";
     console.log("HOME!");
-    if(GetIsSoloAdultContent()) {
+    if (GetIsSoloAdultContent()) {
         //#region GetNewPostsAdult
         html = "";
         ObjPostList = [];
@@ -63,7 +82,7 @@ async function Home() {
         if (posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
             }
         }
         //#endregion GetNewPostsAdult
@@ -84,32 +103,34 @@ async function Home() {
 }
 
 async function LoadMorePost() {
-    if(ObjPostList.length > 0){
-        if(GetIsSoloAdultContent()) {
+    if (ObjPostList.length > 0) {
+        if (GetIsSoloAdultContent()) {
             //#region GetOldPostsAdult
             html = "";
-            let posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length-1].id-1);
-            if(posts.length > 0) {
+            let posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length - 1].id - 1);
+            if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
                 }
             }
             //#endregion GetOldPostsAdult
         } else {
             //#region GetOldPosts
             html = "";
-            let posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length-1].id-1, GetIsAdultContent());
-            if(posts.length > 0) {
+            let posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length - 1].id - 1, GetIsAdultContent());
+            if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
                 }
             }
             //#endregion GetOldPosts
         }
         IndexManager.InjecHtmlContent("PostsContainer", html);
-    } else { console.log(`La lista di ObjPostList contiene ${ObjPostList.length} post, per tanto non puo caricare post precendenti`); }
+    } else {
+        console.log(`La lista di ObjPostList contiene ${ObjPostList.length} post, per tanto non puo caricare post precendenti`);
+    }
 }
 
 async function LoadFormAddPostDetail() {
@@ -120,13 +141,12 @@ async function LoadFormAddPostDetail() {
 }
 
 function ShowUrls() {
-    if (uriCounter < 3){
+    if (uriCounter < 3) {
         uriCounter++;
-        inputFileBar = '<input type="text" class="form-control" id="inputUri' + uriCounter + '" placeholder="Insert URL '+ uriCounter + '">';
+        inputFileBar = '<input type="text" class="form-control" id="inputUri' + uriCounter + '" placeholder="Insert URL ' + uriCounter + '">';
         document.getElementById("btnRemoveUri").disabled = false;
         IndexManager.InjecHtmlContent("addURL", inputFileBar);
-    }
-    else {
+    } else {
         document.getElementById("btnAddUri").disabled = true;
     }
 }
@@ -135,7 +155,7 @@ function DeleteUrls() {
     let child = document.getElementById("inputUri" + uriCounter);
     document.getElementById("addURL").removeChild(child);
     uriCounter--;
-    if (uriCounter == 0){ 
+    if (uriCounter == 0) {
         document.getElementById("btnRemoveUri").disabled = true;
         document.getElementById("btnAddUri").disabled = false;
     }

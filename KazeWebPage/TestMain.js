@@ -17,26 +17,26 @@ async function Main() {
     let isAdultContent = true; // Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
     let isSoloAdultContent = false; //Asseconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
 
-    if(isSoloAdultContent) {
+    if (isSoloAdultContent) {
         //#region GetNewPostsAdult
         html = "";
         posts = await getterJson.GetNewPostsAdult();
         if (posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
             }
             IndexManager.InjecHtmlElement("PostsContainer", html);
         }
         //#endregion GetNewPostsAdult
-        
+
         //#region GetOldPostsAdult
         html = "";
-        posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length-1].id-1);
-        if(posts.length > 0) {
+        posts = await getterJson.GetOldPostsAdult(ObjPostList[ObjPostList.length - 1].id - 1);
+        if (posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
             }
         }
         IndexManager.InjecHtmlElement("PostsContainer", html);
@@ -58,11 +58,11 @@ async function Main() {
 
         //#region GetOldPosts
         html = "";
-        posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length-1].id-1, isAdultContent);
-        if(posts.length > 0) {
+        posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length - 1].id - 1, isAdultContent);
+        if (posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
             }
         }
         IndexManager.InjecHtmlElement("PostsContainer", html);
@@ -73,15 +73,16 @@ async function Main() {
 Main();
 
 object.addEventListener("click", Home());
+
 function Home() {
-    if(isSoloAdultContent) {
+    if (isSoloAdultContent) {
         //#region GetNewPostsAdult
         html = "";
         posts = await getterJson.GetNewPostsAdult();
         if (posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length-1]);
+                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
             }
             IndexManager.InjecHtmlElement("PostsContainer", html);
         }
@@ -102,17 +103,16 @@ function Home() {
     }
 }
 
-    // //CHIAMATA GETOLDPOST X I POST PIU VECCHI
-    // $(window).scroll(function() {
-    //     if($(window).scrollTop() == $(document).height() - $(window).height()) {
-    //         var x = async function getold()  {
-    //             posts = await getterJson.GetOldPosts(6);
-    //             for (let i = 0; i < 3; i++) {
-    //                 html += await htmlBuilder.CreatePostView(posts[i]);
-    //             }
-    //             IndexManager.InjecHtmlElement("PostsContainer", html);
-    //         } 
-    //         x;
-    //     };
-    // });
-
+// //CHIAMATA GETOLDPOST X I POST PIU VECCHI
+// $(window).scroll(function() {
+//     if($(window).scrollTop() == $(document).height() - $(window).height()) {
+//         var x = async function getold()  {
+//             posts = await getterJson.GetOldPosts(6);
+//             for (let i = 0; i < 3; i++) {
+//                 html += await htmlBuilder.CreatePostView(posts[i]);
+//             }
+//             IndexManager.InjecHtmlElement("PostsContainer", html);
+//         } 
+//         x;
+//     };
+// });
