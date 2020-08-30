@@ -21,13 +21,6 @@ let inputFileBar = "";
 // console.log(x.GetId());
 // x.#id = "is change"
 // console.log(x.#Id);
-function XML() {
-
-    console.log(Factory.IsValidId(""));
-    console.log(`Eccezione è propagata`)
-
-}
-XML();
 
 //GetIsAdultContent() Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
 function GetIsAdultContent() {
@@ -61,6 +54,9 @@ StartUp();
 async function StartUp() {
     Home();
     LoadFormAddPostDetail();
+    // let script = document.createElement('script');
+    // script.src = "./Controllers/AddPostDetailController.js";
+    // document.body.append(script);
 }
 
 function ShowAddPost() {
@@ -79,11 +75,17 @@ async function Home() {
         html = "";
         ObjPostList = [];
         let posts = await getterJson.GetNewPostsAdult();
-        if (posts.length > 0) {
-            for (let i = 0; i < posts.length; i++) {
-                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
+        if (posts != null) {
+            if (posts.length > 0) {
+                for (let i = 0; i < posts.length; i++) {
+                    ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
+                }
+            } else {
+                throw new Error("There are not posts");
             }
+        } else {
+            throw new Error("The value posts is null");
         }
         //#endregion GetNewPostsAdult
     } else {
@@ -91,11 +93,17 @@ async function Home() {
         html = "";
         ObjPostList = [];
         let posts = await getterJson.GetNewPosts(GetIsAdultContent());
-        if (posts.length > 0) {
-            for (let i = 0; i < posts.length; i++) {
-                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                html += await htmlBuilder.CreatePostView(ObjPostList[i])
+        if (posts != null) {
+            if (posts.length > 0) {
+                for (let i = 0; i < posts.length; i++) {
+                    ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                    html += await htmlBuilder.CreatePostView(ObjPostList[i])
+                }
+            } else {
+                throw new Error("There are not posts");
             }
+        } else {
+            throw new Error("The value posts is null");
         }
         //#endregion GetNewPosts
     }
