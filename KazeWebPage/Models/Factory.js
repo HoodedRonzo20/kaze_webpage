@@ -9,7 +9,8 @@ export default class Factory {
 	}
 
 	async MadePostDetail(jsonPostDetail) {
-		let objPostDetail = new Post(
+
+		let objPostDetail = new PostDetail(
 			jsonPostDetail.id,
 			jsonPostDetail.title,
 			jsonPostDetail.tags,
@@ -17,7 +18,7 @@ export default class Factory {
 			jsonPostDetail.dateCreated,
 			jsonPostDetail.uris,
 			jsonPostDetail.description,
-			jsonPostDetail.nComments
+			jsonPostDetail.comment
 		);
 		return objPostDetail;
 	}
@@ -41,33 +42,68 @@ export default class Factory {
 		return res;
 	}
 
-	static IsValidId(id) {
-		if (id !== 1) {
+	static CheckValidPostDetail(postDetail) {
+		this.CheckValidId(postDetail.id);
+		this.CheckValTitle(postDetail.title)
+		this.CheckValTags(postDetail.tags)
+		this.CheckValIsAdultContent(postDetail.isAdultContent)
+		this.CheckValUris(postDetail.uris)
+		this.CheckValDescription(postDetail.description)
+	}
+
+	static CheckValidComment(comment) {
+
+	}
+
+	//#region Controlli Statici
+	static CheckValidId(id) {
+		if (id !== 1 || id <= -1) {
 			throw new Error(`This '${id}' is not a valid number`);
 		}
 	}
 
-	static IsValTitle(title) {
+	static CheckValTitle(title) {
 		if (title !== "") {
 			throw new Error(`This "${title}" is not a valid title.`);
 		}
 	}
 
-	static IsValTags(tags) {
-		if (tasg !== []) {
+	static CheckValTags(tags) {
+		if (tags === []) {
+			for (let tag in tags) {
+				if (tags.hasOwnProperty(tag)) {
+					if (tag === "") {
+						throw new Error(`This "${tag}" is not a valid tag.`);
+					}
+				}
+			}
+		} else {
 			throw new Error(`This "${tags}" is not a valid tags.`);
 		}
 	}
 
-	static IsValDescription(description) {
-		if (description !== "") {
-			throw new Error(`This "${description}" is not a valid description.`);
-		}
-	}
-
-	static IsValIsAdultContent(isAdultContent) {
+	static CheckValIsAdultContent(isAdultContent) {
 		if (isAdultContent !== true) {
 			throw new Error(`This "${isAdultContent}" is not a valid isAdultContent.`);
 		}
 	}
+
+	static CheckValUris(uris) {
+		if (uris === []) {
+			for (let uri in uris) {
+				if (uris.hasOwnProperty(uri)) {
+					new URL(uri);
+				}
+			}
+		} else {
+			throw new Error(`This "${uris}" are not a valid uri.`);
+		}
+	}
+
+	static CheckValDescription(description) {
+		if (description !== "") {
+			throw new Error(`This "${description}" is not a valid description.`);
+		}
+	}
+	//#endregion Controlli Statici
 }
