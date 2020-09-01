@@ -47,17 +47,17 @@ document.getElementById("isAdultContentCheck").addEventListener("click", () => {
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
 //#endregion
 
-
 //#region FUNZIONE LOAD MORE CON SCROLL
-$(window).scroll(async function () {
-    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+window.onscroll = function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+        console.log("stocazzo1");
         if (GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 3) {
             LoadMorePost();
         } else if (!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 1) {
             LoadMorePost();
         }
-    };
-});
+    }
+  };
 //#endregion
 
 StartUp();
