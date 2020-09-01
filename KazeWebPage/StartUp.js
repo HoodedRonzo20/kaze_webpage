@@ -4,7 +4,7 @@ import HtmlBuilder from './Models/HtmlBuilder.js';
 import IndexManager from './Models/IndexManager.js';
 import Post from './ViewModel/Post.js';
 import Comment from './ViewModel/Comment.js';
-//Creazione dei componenti necessari
+//#region COMPONENTI
 AOS.init(); // "https://5.95.151.239:25565"
 var getterJson = new GetterJson("https://localhost:5001", null);
 var factory = new Factory("");
@@ -16,38 +16,39 @@ let eleAddPost = document.getElementById("SectionAddPost");
 let elePosts = document.getElementById("SectionPosts");
 let uriCounter = 0;
 let inputFileBar = "";
+//#endregion
 
 // let x = new Comment("ASD");
 // console.log(x.GetId());
 // x.#id = "is change"
 // console.log(x.#Id);
 
-//GetIsAdultContent() A seconda se true o false mostra i post per adulti o pure no sulle chiamate normali
+//#region RETURN DEGLI STATI DEGLI SWITCH
 function GetIsAdultContent() {
     return document.getElementById("isAdultContentCheck").checked;
 }
 
-//A seconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
 function GetIsSoloAdultContent() {
     return document.getElementById("isSoloAdultContentCheck").checked;
 }
+//#endregion
 
-//EventList LoadPost
+//#region EVENT LISTENERS
 document.getElementById("btnHome").addEventListener("click", Home);
 
 document.getElementById("isSoloAdultContentCheck").addEventListener("click", () => {
     Home();
-    UnlockNSFW();
 });
 document.getElementById("isAdultContentCheck").addEventListener("click", () => {
     UnlockJustNSFW();
     Home();
 });
 
-//Event Mostra il Form per la creazione di un post
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
+//#endregion
 
-//CHIAMATA GetOldPost X I POST PIU VECCHI (DA FARE IN JS PURO)
+
+//#region FUNZIONE LOAD MORE CON SCROLL
 $(window).scroll(async function () {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
         if (GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 3) {
@@ -57,6 +58,7 @@ $(window).scroll(async function () {
         }
     };
 });
+//#endregion
 
 StartUp();
 
@@ -156,7 +158,7 @@ async function LoadFormAddPostDetail() {
     document.getElementById("btnAddUri").addEventListener("click", ShowUrls);
     document.getElementById("btnRemoveUri").addEventListener("click", DeleteUrls);
 }
-
+//#region AGGIUNGI E RIMUOVI URL 
 function ShowUrls() {
     if (uriCounter < 3) {
         uriCounter++;
@@ -167,7 +169,6 @@ function ShowUrls() {
         document.getElementById("btnAddUri").disabled = true;
     }
 }
-
 function DeleteUrls() {
     let child = document.getElementById("inputUri" + uriCounter);
     document.getElementById("addURL").removeChild(child);
@@ -177,8 +178,9 @@ function DeleteUrls() {
         document.getElementById("btnAddUri").disabled = false;
     }
 }
+//#endregion
 
-//FUNZIONE CHE GESTISCE LA LOGICA DIETRO I 2 SWITCH, CHE DEVONO FUNZIONARE INSIEME
+//#region FUNZIONE CHE GESTISCE LA LOGICA DIETRO I 2 SWITCH, CHE DEVONO FUNZIONARE INSIEME
 function UnlockJustNSFW() {
     if(document.getElementById("isSoloAdultContentCheck").disabled == true) {
         document.getElementById("isSoloAdultContentCheck").disabled = false;
@@ -191,3 +193,4 @@ function UnlockJustNSFW() {
         document.getElementById("isSoloAdultContentCheck").disabled = true;
     }
 }
+//#endregion
