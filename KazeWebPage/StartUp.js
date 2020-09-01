@@ -22,19 +22,28 @@ let inputFileBar = "";
 // x.#id = "is change"
 // console.log(x.#Id);
 
-//GetIsAdultContent() Asecconda se true o false mostra i mpost per adulti o pure no sulle cbhiamate normali
+//GetIsAdultContent() A seconda se true o false mostra i post per adulti o pure no sulle chiamate normali
 function GetIsAdultContent() {
-    return false;
+    return document.getElementById("isAdultContentCheck").checked;
 }
 
-//Asseconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
+//A seconda se isSoloAdultContent e true o false avvia usa le apposite chiamate.
 function GetIsSoloAdultContent() {
     return document.getElementById("isSoloAdultContentCheck").checked;
 }
 
 //EventList LoadPost
 document.getElementById("btnHome").addEventListener("click", Home);
-document.getElementById("isSoloAdultContentCheck").addEventListener("click", Home);
+
+document.getElementById("isSoloAdultContentCheck").addEventListener("click", () => {
+    Home();
+    UnlockNSFW();
+});
+document.getElementById("isAdultContentCheck").addEventListener("click", () => {
+    UnlockJustNSFW();
+    Home();
+});
+
 //Event Mostra il Form per la creazione di un post
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
 
@@ -166,5 +175,19 @@ function DeleteUrls() {
     if (uriCounter == 0) {
         document.getElementById("btnRemoveUri").disabled = true;
         document.getElementById("btnAddUri").disabled = false;
+    }
+}
+
+//FUNZIONE CHE GESTISCE LA LOGICA DIETRO I 2 SWITCH, CHE DEVONO FUNZIONARE INSIEME
+function UnlockJustNSFW() {
+    if(document.getElementById("isSoloAdultContentCheck").disabled == true) {
+        document.getElementById("isSoloAdultContentCheck").disabled = false;
+    }
+    else {
+        document.getElementById("isSoloAdultContentCheck").disabled = true;
+    }
+    if(document.getElementById("isSoloAdultContentCheck").checked == true) {
+        document.getElementById("isSoloAdultContentCheck").checked = false;
+        document.getElementById("isSoloAdultContentCheck").disabled = true;
     }
 }

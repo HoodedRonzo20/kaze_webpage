@@ -93,4 +93,10 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
+.badge-warning {
+    color: white;
+    background-color: #b30000;
+  }
+
 /*#endregion Toggle Switch*/
+
