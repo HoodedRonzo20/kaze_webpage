@@ -58,6 +58,7 @@ window.onscroll = function() {
             } else if (!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 1) {
                 LoadMorePost();
             }
+            //necessario per non far si che la funzione venga chiamata più di una volta nello stesso istante, duplicando i post
             setTimeout(function(){ booleanScroll = true; }, 200);
         }
     }
