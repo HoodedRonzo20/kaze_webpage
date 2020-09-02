@@ -16,6 +16,7 @@ let eleAddPost = document.getElementById("SectionAddPost");
 let elePosts = document.getElementById("SectionPosts");
 let uriCounter = 0;
 let inputFileBar = "";
+var booleanScroll = true;
 //#endregion
 
 // let x = new Comment("ASD");
@@ -48,14 +49,16 @@ document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPos
 //#endregion
 
 //#region FUNZIONE LOAD MORE CON SCROLL
-window.onscroll =async function() {
+window.onscroll = function() {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-        if (GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 3) {
-            LoadMorePost();
-            console.log("stocazzo1");
-        } else if (!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 1) {
-            LoadMorePost();
-            console.log("stocazzo2");
+        if (booleanScroll == true) {
+            booleanScroll = false;
+            if (GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 3) {
+                LoadMorePost();
+            } else if (!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 1) {
+                LoadMorePost();
+            }
+            setTimeout(function(){ booleanScroll = true; }, 200);
         }
     }
   };
@@ -79,6 +82,7 @@ function ShowAddPost() {
 }
 
 async function Home() {
+    console.log(booleanScroll);
     elePosts.style.display = "block";
     eleAddPost.style.display = "none";
     console.log("HOME!");
