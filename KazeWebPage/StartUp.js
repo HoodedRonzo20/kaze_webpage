@@ -48,13 +48,14 @@ document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPos
 //#endregion
 
 //#region FUNZIONE LOAD MORE CON SCROLL
-window.onscroll = function() {
+window.onscroll =async function() {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-        console.log("stocazzo1");
         if (GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 3) {
             LoadMorePost();
+            console.log("stocazzo1");
         } else if (!GetIsSoloAdultContent() && ObjPostList[ObjPostList.length - 1].id > 1) {
             LoadMorePost();
+            console.log("stocazzo2");
         }
     }
   };
