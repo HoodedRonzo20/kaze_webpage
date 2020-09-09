@@ -30,8 +30,14 @@ function GetIsAdultContentBlur() {
     return document.getElementById("isAdultContentCheck").checked;
 }
 
-function GetIsAdultContent() {
-    return true;
+function GetIsHideAdultContent() {
+    //inverto per non cambiare il codice fatto dopo perchè sono un porco
+    if(document.getElementById("isHideNSFW").checked == false) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 function GetIsSoloAdultContent() {
@@ -43,6 +49,10 @@ function GetIsSoloAdultContent() {
 document.getElementById("btnHome").addEventListener("click", Home);
 
 document.getElementById("isSoloAdultContentCheck").addEventListener("click", () => {
+    Home();
+});
+
+document.getElementById("isHideNSFW").addEventListener("click", () => {
     Home();
 });
 
@@ -136,7 +146,7 @@ async function Home() {
         //#region GetNewPosts
         html = "";
         ObjPostList = [];
-        let posts = await getterJson.GetNewPosts(GetIsAdultContent());
+        let posts = await getterJson.GetNewPosts(GetIsHideAdultContent());
         if (posts != null) {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
@@ -170,7 +180,7 @@ async function LoadMorePost() {
         } else {
             //#region GetOldPosts
             html = "";
-            let posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length - 1].id - 1, GetIsAdultContent());
+            let posts = await getterJson.GetOldPosts(ObjPostList[ObjPostList.length - 1].id - 1, GetIsHideAdultContent());
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
