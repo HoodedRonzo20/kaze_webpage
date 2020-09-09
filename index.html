@@ -34,10 +34,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <!-- <button id="btnHome" type="button" class="btn btn-secondary">Home</button>
-                    <li class="nav-item">
-                        <a id="AddPostDetail" class="nav-link" href="#">Add Post</a>
-                    </li> -->
                     <li class="nav-item">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-secondary active">
@@ -47,12 +43,13 @@
                                 <input type="radio" name="options" id="btnAddPostDetail" autocomplete="off"> Add Post
                             </label>
                             <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+                                <input type="radio" name="options" id="btnAdvancedSearch" autocomplete="off"> Advanced Post Search
                             </label>
                         </div>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
+                <form id="FormHomeSearch" class="form-inline my-2 my-lg-0" onsubmit="return false">
+
                     <span class="badge badge-danger mr-sm-2">NSFW:</span>
                     <!-- Rounded switch -->
                     <label class="switch mr-sm-2">
@@ -64,9 +61,10 @@
                         <input id="isSoloAdultContentCheck" type="checkbox" disabled>
                         <span class="slider round"></span>
                     </label>
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search post by ID"
+                    <input id="HomeSearch" class="form-control mr-sm-2" type="search" placeholder="Search post by ID"
                         aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    
                 </form>
             </div>
         </nav>
@@ -85,6 +83,17 @@
         <div class="container text-center col-sm text-center align-self-center">
             <div class="row">
                 <div id="AddPostContainer" class="col">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selection #3 Advanced Search  -->
+    <section id="SectionAdvSearch" class="jumbotron text-center bg-dark">
+        <div class="container text-center col-sm text-center align-self-center">
+            <div class="row">
+                <div id="AdvSearchContainer" class="col">
 
                 </div>
             </div>

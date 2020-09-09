@@ -13,6 +13,7 @@ var html = "";
 var ObjPostList = []; //Lista di oggetti Post
 var ObjCommentList = []; //Lista di oggetti Post
 let eleAddPost = document.getElementById("SectionAddPost");
+let eleAdvancedSearch = document.getElementById("SectionAdvSearch");
 let elePosts = document.getElementById("SectionPosts");
 let uriCounter = 0;
 let inputFileBar = "";
@@ -24,7 +25,7 @@ var booleanScroll = true;
 // x.#id = "is change"
 // console.log(x.#Id);
 
-//#region RETURN DEGLI STATI DEGLI SWITCH
+//#region RETURN DEGLI STATI DEGLI SWITCH PER ADULTI
 function GetIsAdultContent() {
     return document.getElementById("isAdultContentCheck").checked;
 }
@@ -46,6 +47,12 @@ document.getElementById("isAdultContentCheck").addEventListener("click", () => {
 });
 
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
+document.getElementById("btnAdvancedSearch").addEventListener("click", ShowAdvancedSearch);
+
+document.getElementById("FormHomeSearch").addEventListener("submit", (e) => {
+    e.preventDefault();
+    SearchResults();
+});
 //#endregion
 
 //#region FUNZIONE LOAD MORE CON SCROLL
@@ -70,23 +77,38 @@ StartUp();
 async function StartUp() {
     Home();
     LoadFormAddPostDetail();
+    LoadFormAdvSearch();
     // let script = document.createElement('script');
     // script.src = "./Controllers/AddPostDetailController.js";
     // document.body.append(script);
 }
 
+
 function ShowAddPost() {
     if (eleAddPost.style.display == "none") {
+        //nascondo le altre due pagine html
         elePosts.style.display = "none";
+        eleAdvancedSearch.style.display = "none";
+        //mostro quella che mi serve vedere e basta
         eleAddPost.style.display = "block";
     }
 }
 
+function ShowAdvancedSearch() {
+    if (eleAdvancedSearch.style.display == "none") {
+        //nascondo le altre due pagine html
+        elePosts.style.display = "none";
+        eleAddPost.style.display = "none";
+        //mostro quella che mi serve vedere e basta
+        eleAdvancedSearch.style.display = "block";
+    }
+}
+
 async function Home() {
-    console.log(booleanScroll);
     elePosts.style.display = "block";
     eleAddPost.style.display = "none";
-    console.log("HOME!");
+    eleAdvancedSearch.style.display = "none";
+
     if (GetIsSoloAdultContent()) {
         //#region GetNewPostsAdult
         html = "";
@@ -164,6 +186,11 @@ async function LoadFormAddPostDetail() {
     document.getElementById("btnAddUri").addEventListener("click", ShowUrls);
     document.getElementById("btnRemoveUri").addEventListener("click", DeleteUrls);
 }
+
+async function LoadFormAdvSearch() {
+    let htmlAdvSearch = await htmlBuilder.GetHtmlAdvSearch();
+    IndexManager.ReplaceHtmlContent("AdvSearchContainer", htmlAdvSearch);
+}
 //#region AGGIUNGI E RIMUOVI URL 
 function ShowUrls() {
     if (uriCounter < 3) {
@@ -200,3 +227,55 @@ function UnlockJustNSFW() {
     }
 }
 //#endregion
+
+async function HomeSearchPost(searchValue) {
+    elePosts.style.display = "block";
+    eleAddPost.style.display = "none";
+    eleAdvancedSearch.style.display = "none";
+
+    if (GetIsSoloAdultContent()) {
+        //#region GetNewPostsAdult
+        html = "";
+        ObjPostList = [];
+        let posts = await getterJson.GetPostsSearch(searchValue);
+        if (posts != null) {
+            if (posts.length > 0) {
+                for (let i = 0; i < posts.length; i++) {
+                    ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
+                }
+            } else {
+                throw new Error("There are not posts");
+            }
+        } else {
+            throw new Error("The value posts is null");
+        }
+        //#endregion GetNewPostsAdult
+    } else {
+        //#region GetNewPosts
+        html = "";
+        ObjPostList = [];
+        let posts = await getterJson.GetPostsSearch(searchValue);
+        if (posts != null) {
+            if (posts.length > 0) {
+                for (let i = 0; i < posts.length; i++) {
+                    ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                    html += await htmlBuilder.CreatePostView(ObjPostList[i])
+                }
+            } else {
+                throw new Error("There are not posts");
+            }
+        } else {
+            throw new Error("The value posts is null");
+        }
+        //#endregion GetNewPosts
+    }
+    IndexManager.ReplaceHtmlContent("PostsContainer", html);
+}
+
+function SearchResults() {
+    console.log("merda");
+    var searchValue = document.getElementById("HomeSearch").value;
+    HomeSearchPost(searchValue);
+
+}

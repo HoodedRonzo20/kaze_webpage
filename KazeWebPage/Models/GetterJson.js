@@ -22,6 +22,14 @@ export default class GetterJson {
         }
         return await GetterJson.RequestJsonAsync("GET", url, this.data);
     }
+
+    //richiesta per la ricerca
+    async GetPostsSearch(postID) {
+        let url = this.domain + "/Post";
+        url = url + "/Detail?id=" + postID;
+        return await GetterJson.RequestJsonAsync("GET", url, this.data);
+    }
+
     //VISUALIZZAZIONE SOLO POST ADULTI
     async GetNewPostsAdult() {
         let url = this.domain + "/Post/Adult";

@@ -116,6 +116,11 @@ export default class HtmlBuilder {
         return await HtmlBuilder.GetTextFromFile(path);
     }
 
+    async GetHtmlAdvSearch() {
+        let path = `${this.pathTemplate}/FormAdvSearch.html`;
+        return await HtmlBuilder.GetTextFromFile(path);
+    }
+
     async GetHtmlAddComment() {
         let path = `${this.pathTemplate}/FormAddComment.html`;
         let html = await HtmlBuilder.GetTextFromFile(path);

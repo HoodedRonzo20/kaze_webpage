@@ -20,6 +20,11 @@ section {
     background-color: #1E1E1E ;
 }
 
+#SectionAdvSearch {
+    display: none;
+    background-color: #1E1E1E ;
+}
+
 #SectionAddPost {
     display: none;
     background-color: #1E1E1E ;
