@@ -136,7 +136,7 @@ async function Home() {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[i])
+                    html += await htmlBuilder.CreatePostView(ObjPostList[i]);
                 }
             } else {
                 throw new Error("There are not posts");
