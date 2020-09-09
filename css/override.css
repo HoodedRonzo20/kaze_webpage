@@ -20,6 +20,10 @@ section {
     background-color: #1E1E1E ;
 }
 
+.blur{
+    filter: blur(20px);
+}
+
 #SectionAdvSearch {
     display: none;
     background-color: #1E1E1E ;

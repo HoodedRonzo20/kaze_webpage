@@ -36,9 +36,16 @@ export default class HtmlBuilder {
         return htmlPost;
     }
 
-    async CreatePostView(post) {
+    async CreatePostView(post, isAdult) {
         let path = `${this.pathTemplate}/${Post.name}.html`;
         let htmlPost = await HtmlBuilder.GetTextFromFile(path);
+        //blurra se è un contenuto adult
+        if(isAdult == false) {
+            htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "blur", post.isAdultContent ? 'blur' : '');
+        }
+        else {
+            htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "blur", post.isAdultContent ? 'notBlur' : '');
+        }
         //Insert id
         htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "id", post.id);
         //Insert titolo

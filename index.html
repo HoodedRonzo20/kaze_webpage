@@ -50,17 +50,24 @@
                 </ul>
                 <form id="FormHomeSearch" class="form-inline my-2 my-lg-0" onsubmit="return false">
 
+                    <span class="badge badge-secondary mr-sm-2">Hide NSFW:</span>
+                    <label class="switch mr-sm-2">
+                        <input id="isHideNSFW" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+
                     <span class="badge badge-danger mr-sm-2">NSFW:</span>
-                    <!-- Rounded switch -->
                     <label class="switch mr-sm-2">
                         <input id="isAdultContentCheck" type="checkbox">
                         <span class="slider round"></span>
                     </label>
+
                     <span class="badge badge-warning mr-sm-2">Just NSFW:</span>
                     <label class="switch mr-sm-2">
                         <input id="isSoloAdultContentCheck" type="checkbox" disabled>
                         <span class="slider round"></span>
                     </label>
+
                     <input id="HomeSearch" class="form-control mr-sm-2" type="search" placeholder="Search post by ID"
                         aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

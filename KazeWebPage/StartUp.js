@@ -26,8 +26,12 @@ var booleanScroll = true;
 // console.log(x.#Id);
 
 //#region RETURN DEGLI STATI DEGLI SWITCH PER ADULTI
-function GetIsAdultContent() {
+function GetIsAdultContentBlur() {
     return document.getElementById("isAdultContentCheck").checked;
+}
+
+function GetIsAdultContent() {
+    return true;
 }
 
 function GetIsSoloAdultContent() {
@@ -41,9 +45,10 @@ document.getElementById("btnHome").addEventListener("click", Home);
 document.getElementById("isSoloAdultContentCheck").addEventListener("click", () => {
     Home();
 });
+
 document.getElementById("isAdultContentCheck").addEventListener("click", () => {
     UnlockJustNSFW();
-    Home();
+    ShowHideBlur();
 });
 
 document.getElementById("btnAddPostDetail").addEventListener("click", ShowAddPost);
@@ -136,7 +141,7 @@ async function Home() {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[i]);
+                    html += await htmlBuilder.CreatePostView(ObjPostList[i], GetIsAdultContentBlur());
                 }
             } else {
                 throw new Error("There are not posts");
@@ -158,7 +163,7 @@ async function LoadMorePost() {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1], GetIsAdultContentBlur());
                 }
             }
             //#endregion GetOldPostsAdult
@@ -169,7 +174,7 @@ async function LoadMorePost() {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1], GetIsAdultContentBlur());
                 }
             }
             //#endregion GetOldPosts
@@ -242,7 +247,7 @@ async function HomeSearchPost(searchValue) {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1]);
+                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1], GetIsAdultContentBlur());
                 }
             } else {
                 throw new Error("There are not posts");
@@ -260,7 +265,7 @@ async function HomeSearchPost(searchValue) {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[i])
+                    html += await htmlBuilder.CreatePostView(ObjPostList[i], GetIsAdultContentBlur());
                 }
             } else {
                 throw new Error("There are not posts");
@@ -274,8 +279,42 @@ async function HomeSearchPost(searchValue) {
 }
 
 function SearchResults() {
-    console.log("merda");
     var searchValue = document.getElementById("HomeSearch").value;
     HomeSearchPost(searchValue);
 
 }
+
+function ShowHideBlur() {
+    if(GetIsSoloAdultContent()) {
+        let blurPostList = document.getElementsByClassName("blur");
+        for (let blurPost in blurPostList) {
+            if (blurPostList.hasOwnProperty(blurPost)) {
+                let element = blurPostList[blurPost];
+                element.classList.replace("blur", "notBlur");
+            }
+        }
+    }
+    else {
+        if(GetIsAdultContentBlur()) {
+            let blurPostList = document.getElementsByClassName("blur");
+            for (let blurPost in blurPostList) {
+                if (blurPostList.hasOwnProperty(blurPost)) {
+                    let element = blurPostList[blurPost];
+                    element.classList.replace("blur", "notBlur");
+                }
+            }
+        }
+        else {
+            let blurPostList = document.getElementsByClassName("notBlur");
+            console.log(document.getElementsByClassName("notBlur"));
+            for (let blurPost in blurPostList) {
+                if (blurPostList.hasOwnProperty(blurPost)) {
+                    let element = blurPostList[blurPost];
+                    element.classList.replace("notBlur", "blur");
+                }
+            }
+    
+        }
+    }
+}
+
