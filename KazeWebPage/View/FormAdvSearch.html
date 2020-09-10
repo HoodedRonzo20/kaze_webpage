@@ -1,15 +1,23 @@
 <form class="bg-dark" onsubmit="return false">
     <div class="form-group">
-        <label for="inputUIS">Unique ID Search</label>
-        <input class="form-control" id="inputUIS" placeholder="Insert Title or Description keywords to find posts">
-    </div>
-    <div class="form-group">
         <label for="inputTDK">Title or Description Keywords</label>
         <input class="form-control" id="inputTDK" placeholder="Insert Title or Description keywords to find posts">
     </div>
-    <div class="form-group">
-        <label for="inputCDP">Creation Date</label>
-          <input class="form-control" type="date" id="inputCDP">
+    <label for="inputCDP">Creation Date</label>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                  <input class="form-control" type="date" id="inputCDP"> 
+            </div>
+        </div>
+        <div class="col-xs-$">
+            <h3>TO</h3>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                  <input class="form-control" type="date" id="inputCDP2">
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label for="inputCTP">Creation Time</label>
@@ -24,7 +32,7 @@
             <br>
             <input class="form-check-input" type="checkbox" id="inputNSFW">
             <label class="form-check-label" for="inputNSFW">
-                <span class="badge badge-danger mr-sm-2">+18 Content (NSFW)</span>
+                <span class="badge badge-danger mr-sm-2">+18 Content Filter (NSFW)</span>
             </label>
         </div>
     </div>
