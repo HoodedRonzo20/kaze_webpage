@@ -6,33 +6,38 @@ export default class HtmlBuilder {
         this.pathTemplate = pathTemplate
     }
 
-    async CreatePostDetailView(post) {
-        let path = `${this.pathTemplate}/${Post.name}.html`;
+    async CreatePostDetailView(post, isAdult) {
+        let path = `${this.pathTemplate}/PostDetail.html`;
         let htmlPost = await HtmlBuilder.GetTextFromFile(path);
+        //blurra se è un contenuto adult
+        if(isAdult == false) {
+            htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "blur", post.isAdultContent ? 'blur' : '');
+        }
+        else {
+            htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "blur", post.isAdultContent ? 'notBlur' : '');
+        }
         //Insert id
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "id", post.id);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "id", post.id);
         //Insert titolo
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "title", post.title);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "title", post.title);
         //Insert tags
         let htmlTags = await HtmlBuilder.CreateHtmlTags(this.pathTemplate, post.tags);
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "tags", htmlTags);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "tags", htmlTags);
         //Insert tag NSFW nel caso richiesto
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "isAdultContent", post.isAdultContent ? 'NSFW' : '');
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "isAdultContent", post.isAdultContent ? 'NSFW' : '');
         //Insert data di creazione
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "dateCreated", post.dateCreated);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "dateCreated", post.dateCreated);
         //Insert del primo URI se esisten altimenti la descrizione
         if (post.uris.length > 0) {
-            for (let i = 0; i < post.uris.length; i++) {
-                let htmlFile = await HtmlBuilder.CreateHtmlUrisManagement(this.pathTemplate, post.uris);
-                htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", htmlFile);
-                htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", "");
-            }
+            let htmlFile = await HtmlBuilder.CreateHtmlUrisManagement(this.pathTemplate, post.uris[0]);
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", htmlFile);
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", "");
         } else {
-            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", "");
+            htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "uriMain", '');
             htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "description", post.description);
         }
         //Insert numero dei commenti
-        htmlPost = HtmlBuilder.RepleaceKey(htmlPost, "nComments", post.nComments);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "nComments", post.nComments);
         return htmlPost;
     }
 

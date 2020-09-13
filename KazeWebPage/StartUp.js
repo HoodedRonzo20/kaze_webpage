@@ -247,26 +247,6 @@ async function HomeSearchPost(searchValue) {
     elePosts.style.display = "block";
     eleAddPost.style.display = "none";
     eleAdvancedSearch.style.display = "none";
-
-    if (GetIsSoloAdultContent()) {
-        //#region GetNewPostsAdult
-        html = "";
-        ObjPostList = [];
-        let posts = await getterJson.GetPostsSearch(searchValue);
-        if (posts != null) {
-            if (posts.length > 0) {
-                for (let i = 0; i < posts.length; i++) {
-                    ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[ObjPostList.length - 1], GetIsAdultContentBlur());
-                }
-            } else {
-                throw new Error("There are not posts");
-            }
-        } else {
-            throw new Error("The value posts is null");
-        }
-        //#endregion GetNewPostsAdult
-    } else {
         //#region GetNewPosts
         html = "";
         ObjPostList = [];
@@ -275,7 +255,7 @@ async function HomeSearchPost(searchValue) {
             if (posts.length > 0) {
                 for (let i = 0; i < posts.length; i++) {
                     ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
-                    html += await htmlBuilder.CreatePostView(ObjPostList[i], GetIsAdultContentBlur());
+                    html += await htmlBuilder.CreatePostDetailView(ObjPostList[i], GetIsAdultContentBlur());
                 }
             } else {
                 throw new Error("There are not posts");
@@ -284,7 +264,6 @@ async function HomeSearchPost(searchValue) {
             throw new Error("The value posts is null");
         }
         //#endregion GetNewPosts
-    }
     IndexManager.ReplaceHtmlContent("PostsContainer", html);
 }
 
