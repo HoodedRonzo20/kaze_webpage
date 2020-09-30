@@ -250,6 +250,16 @@ function DeleteUrls() {
 //#endregion
 
 function UnlockJustNSFW() {
+    if(document.getElementById("isHideNSFW").disabled == false) {
+        document.getElementById("isHideNSFW").disabled = true;
+    }
+    else {
+        document.getElementById("isHideNSFW").disabled = false;
+    }
+    if(document.getElementById("isHideNSFW").checked == true) {
+        document.getElementById("isHideNSFW").checked = false;
+        Home();
+    }
     if(document.getElementById("isSoloAdultContentCheck").checked == true) {
         NoJustAdultHome();
     }
