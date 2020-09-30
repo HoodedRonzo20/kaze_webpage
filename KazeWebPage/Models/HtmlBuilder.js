@@ -73,6 +73,7 @@ export default class HtmlBuilder {
         }
         //Insert numero dei commenti
         htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "nComments", post.nComments);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "detailID", post.id);
         return htmlPost;
     }
 

@@ -20,9 +20,10 @@ section {
     background-color: #1E1E1E ;
 }
 
-#ViewFullPost {
+.ViewFullPost {
     color: #ffc61a;
     background-color: #a6c;
+    cursor: pointer;
 }
 
 .blur{

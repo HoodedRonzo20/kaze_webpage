@@ -68,6 +68,7 @@ document.getElementById("FormHomeSearch").addEventListener("submit", (e) => {
     e.preventDefault();
     SearchResults();
 });
+
 //#endregion
 
 //#region FUNZIONE LOAD MORE CON SCROLL
@@ -164,6 +165,26 @@ async function Home() {
     IndexManager.ReplaceHtmlContent("PostsContainer", html);
 }
 
+async function NoJustAdultHome() {
+    html = "";
+    ObjPostList = [];
+    let posts = await getterJson.GetNewPosts(GetIsHideAdultContent());
+    if (posts != null) {
+        if (posts.length > 0) {
+            for (let i = 0; i < posts.length; i++) {
+                ObjPostList.push(await Post.CreatePostFromJson(posts[i]));
+                html += await htmlBuilder.CreatePostView(ObjPostList[i], GetIsAdultContentBlur());
+            }
+        } else {
+            throw new Error("There are not posts");
+        }
+    } else {
+        throw new Error("The value posts is null");
+    }
+    //#endregion GetNewPosts
+    IndexManager.ReplaceHtmlContent("PostsContainer", html);
+}
+
 async function LoadMorePost() {
     if (ObjPostList.length > 0) {
         if (GetIsSoloAdultContent()) {
@@ -228,8 +249,10 @@ function DeleteUrls() {
 }
 //#endregion
 
-//#region FUNZIONE CHE GESTISCE LA LOGICA DIETRO I 2 SWITCH, CHE DEVONO FUNZIONARE INSIEME
 function UnlockJustNSFW() {
+    if(document.getElementById("isSoloAdultContentCheck").checked == true) {
+        NoJustAdultHome();
+    }
     if(document.getElementById("isSoloAdultContentCheck").disabled == true) {
         document.getElementById("isSoloAdultContentCheck").disabled = false;
     }
@@ -241,7 +264,6 @@ function UnlockJustNSFW() {
         document.getElementById("isSoloAdultContentCheck").disabled = true;
     }
 }
-//#endregion
 
 async function HomeSearchPost(searchValue) {
     elePosts.style.display = "block";
@@ -282,6 +304,7 @@ function ShowHideBlur() {
                 element.classList.replace("blur", "notBlur");
             }
         }
+        IndexManager.InjecHtmlContent("PostsContainer", html);
     }
     else {
         if(GetIsAdultContentBlur()) {
