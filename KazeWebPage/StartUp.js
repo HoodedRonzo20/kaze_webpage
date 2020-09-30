@@ -306,6 +306,8 @@ function SearchResults() {
 }
 
 function ShowHideBlur() {
+
+    //#region METTI E TOGLI IL BLUR
     if(GetIsSoloAdultContent()) {
         let blurPostList = document.getElementsByClassName("blur");
         for (let blurPost in blurPostList) {
@@ -338,5 +340,40 @@ function ShowHideBlur() {
     
         }
     }
+    //#endregion
+   
+   //#region METTI E TOGLI L'AVVISO SOPRA IL BLUR
+    if(GetIsSoloAdultContent()) {
+        let blurPostList = document.getElementsByClassName("adviceText");
+        for (let blurPost in blurPostList) {
+            if (blurPostList.hasOwnProperty(blurPost)) {
+                let element = blurPostList[blurPost];
+                element.classList.replace("adviceText", "NoAdviceTextReversable");
+            }
+        }
+        IndexManager.InjecHtmlContent("PostsContainer", html);
+    }
+    else {
+        if(GetIsAdultContentBlur()) {
+            let blurPostList = document.getElementsByClassName("adviceText");
+            for (let blurPost in blurPostList) {
+                if (blurPostList.hasOwnProperty(blurPost)) {
+                    let element = blurPostList[blurPost];
+                    element.classList.replace("adviceText", "NoAdviceTextReversable");
+                }
+            }
+        }
+        else {
+            let blurPostList = document.getElementsByClassName("NoAdviceTextReversable");
+            for (let blurPost in blurPostList) {
+                if (blurPostList.hasOwnProperty(blurPost)) {
+                    let element = blurPostList[blurPost];
+                    element.classList.replace("NoAdviceTextReversable", "adviceText");
+                }
+            }
+    
+        }
+    }
+    //#endregion
 }
 

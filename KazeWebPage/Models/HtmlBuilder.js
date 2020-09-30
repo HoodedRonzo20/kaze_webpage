@@ -47,9 +47,11 @@ export default class HtmlBuilder {
         //blurra se è un contenuto adult
         if(isAdult == false) {
             htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "blur", post.isAdultContent ? 'blur' : '');
+            htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "adviceText", post.isAdultContent ? 'adviceText' : 'NoAdviceText');
         }
         else {
             htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "blur", post.isAdultContent ? 'notBlur' : '');
+            htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "adviceText", post.isAdultContent ? 'NoAdviceTextReversable' : 'NoAdviceText');
         }
         //Insert id
         htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "id", post.id);

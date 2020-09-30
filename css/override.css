@@ -5,6 +5,12 @@
     src: local('Open Sans'), local('OpenSans'), url(./OpenSans.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
 }
+
+@font-face {
+    font-family: adviceFont;
+    src: url(MostlyMono.ttf);
+}
+
 body {
     background-color: #1E1E1E ;
     color: #FFFFFF;
@@ -28,6 +34,27 @@ section {
 
 .blur{
     filter: blur(20px);
+}
+
+.adviceText{
+    font-family: adviceFont;
+    font-size: xx-large;
+    border-radius: 15px;
+    position: absolute;
+    top:40%;
+    width:fit-content;
+    text-align:center;
+    z-index:1;
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.NoAdviceText{
+    display: none;
+}
+
+.NoAdviceTextReversable{
+    display: none;
 }
 
 #SectionAdvSearch {
