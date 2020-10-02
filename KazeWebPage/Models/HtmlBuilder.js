@@ -63,7 +63,7 @@ export default class HtmlBuilder {
         //Insert tag NSFW nel caso richiesto
         htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "isAdultContent", post.isAdultContent ? 'NSFW' : '');
         //Insert data di creazione
-        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "dateCreated", post.dateCreated);
+        htmlPost = HtmlBuilder.RepleaceAllKey(htmlPost, "dateCreated", await HtmlBuilder.DateBuilder(post.dateCreated));
         //Insert del primo URI se esisten altimenti la descrizione
         if (post.uris.length > 0) {
             let htmlFile = await HtmlBuilder.CreateHtmlUrisManagement(this.pathTemplate, post.uris[0]);
@@ -124,6 +124,11 @@ export default class HtmlBuilder {
         }
         html = HtmlBuilder.RepleaceAllKey(html, "File_Name", uri.split("/")[uri.split("/").length - 1]);
         return html;
+    }
+
+    //tolgo la T dalla data e rendo il tutto più leggibile
+    static async DateBuilder(post_date) {  
+        return post_date.replace("T", " | ");
     }
 
     async GetHtmlAddPostDetail() {
